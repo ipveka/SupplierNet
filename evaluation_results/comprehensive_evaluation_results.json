@@ -1,0 +1,5022 @@
+{
+  "model_info": {
+    "model_path": "../models/best_model.pth",
+    "preprocessor_path": "../models/best_model_preprocessor.pkl",
+    "test_data_path": "data/test_dataset.csv",
+    "config": {
+      "simulation": {
+        "num_skus": 100,
+        "time_horizon_weeks": 104,
+        "train_test_split": 0.8,
+        "demand_distribution": "poisson",
+        "base_demand_range": [
+          10,
+          200
+        ],
+        "seasonality_amplitude": 0.3,
+        "demand_noise_std": 0.1,
+        "procurement_lead_time_range": [
+          2,
+          8
+        ],
+        "manufacturing_lead_time_range": [
+          1,
+          4
+        ],
+        "lead_time_variability": 0.2,
+        "holding_cost_rate": 0.02,
+        "shortage_penalty_multiplier": 5.0,
+        "ordering_cost_range": [
+          50,
+          200
+        ],
+        "production_cost_multiplier": 0.8,
+        "unit_cost_range": [
+          5,
+          100
+        ],
+        "initial_inventory_weeks": 4,
+        "safety_stock_weeks": 2,
+        "max_order_quantity_weeks": 12
+      },
+      "model": {
+        "input_features": 19,
+        "hidden_layers": [
+          128,
+          64,
+          32
+        ],
+        "dropout_rate": 0.2,
+        "batch_norm": true,
+        "activation": "relu",
+        "output_activation": "relu"
+      },
+      "training": {
+        "batch_size": 64,
+        "learning_rate": 0.001,
+        "max_epochs": 200,
+        "early_stopping_patience": 20,
+        "validation_split": 0.2,
+        "weight_decay": 1e-05,
+        "loss_type": "mse",
+        "cost_weight": 0.3,
+        "service_weight": 0.7,
+        "device": "cuda"
+      },
+      "evaluation": {
+        "service_level_threshold": 0.95,
+        "cost_components": [
+          "holding",
+          "shortage",
+          "ordering",
+          "production"
+        ],
+        "visualization_skus": 5
+      },
+      "features": {
+        "lookback_weeks": 8,
+        "forecast_horizon": 4,
+        "include_seasonality": true,
+        "include_trend": true,
+        "normalize_features": true
+      },
+      "random_seed": 42
+    }
+  },
+  "data_info": {
+    "n_test_samples": 10400,
+    "n_skus": 100,
+    "time_horizon": "104",
+    "feature_names": [
+      "current_inventory",
+      "pipeline_procurement",
+      "pipeline_manufacturing",
+      "avg_demand_lookback",
+      "demand_trend",
+      "demand_volatility",
+      "procurement_lead_time",
+      "manufacturing_lead_time",
+      "unit_cost",
+      "seasonality_sin",
+      "seasonality_cos",
+      "inventory_to_demand_ratio",
+      "pipeline_to_demand_ratio",
+      "lead_time_difference",
+      "cost_advantage_manufacturing",
+      "demand_coefficient_of_variation",
+      "week_normalized",
+      "inventory_volatility_interaction",
+      "leadtime_demand_interaction"
+    ]
+  },
+  "evaluation_results": {
+    "prediction_metrics": {
+      "mae": 21.654700369657334,
+      "mse": 772.2305442680258,
+      "rmse": 27.789036404093356,
+      "r2": 0.8472348349156475,
+      "mape": 35026242.72744881,
+      "smape": 54.926296501326235,
+      "prediction_std": 27.759016251593824,
+      "mean_true": 97.6347320061394,
+      "mean_pred": "96.34339",
+      "std_true": 71.09864448193812,
+      "std_pred": "68.55279",
+      "min_true": 0.0,
+      "max_true": 501.81219948390174,
+      "min_pred": "0.0",
+      "max_pred": "343.33447"
+    },
+    "cost_metrics": {
+      "total_cost": 48496255.247838214,
+      "avg_cost_per_period": 4663.10146613829,
+      "holding_cost_total": 2895772.5058549307,
+      "shortage_cost_total": 302245.34167246753,
+      "ordering_cost_total": "0",
+      "production_cost_total": 45298237.400310814,
+      "cost_breakdown": {
+        "holding": 0.05971125999432737,
+        "shortage": 0.006232343922800937,
+        "ordering": 0.0,
+        "production": 0.9340563960828716
+      }
+    },
+    "service_metrics": {
+      "avg_service_level": 0.9954236555245453,
+      "median_service_level": 1.0,
+      "min_service_level": 0.0,
+      "stockout_frequency": 0.0125,
+      "perfect_service_rate": 0.9875,
+      "service_level_std": 0.05282558100229044,
+      "service_level_95th_percentile": 1.0,
+      "service_level_5th_percentile": 1.0
+    },
+    "sku_analysis": {
+      "sku_metrics": {
+        "SKU_000": {
+          "n_periods": 104,
+          "avg_demand": 39.44230769230769,
+          "demand_volatility": 11.918678270271059,
+          "unit_cost": 35.42977049904175,
+          "prediction_metrics": {
+            "mae": 24.094995642401315,
+            "mse": 966.6464637415503,
+            "rmse": 31.090938611459613,
+            "r2": -0.1837351684750208,
+            "mape": 69.16255627501282,
+            "smape": 117.16494391500451,
+            "prediction_std": 27.064483122032886,
+            "mean_true": 38.91538461538462,
+            "mean_pred": "23.613089",
+            "std_true": 28.57633694094346,
+            "std_pred": "31.3054",
+            "min_true": 0.0,
+            "max_true": 230.84958862093282,
+            "min_pred": "0.0",
+            "max_pred": "144.07426"
+          },
+          "cost_metrics": {
+            "total_cost": 97028.6181463783,
+            "avg_cost_per_period": 932.9674821767144,
+            "holding_cost_total": 4659.3411634283,
+            "shortage_cost_total": 22763.627545634325,
+            "ordering_cost_total": "0",
+            "production_cost_total": 69605.64943731567,
+            "cost_breakdown": {
+              "holding": 0.04802027744432239,
+              "shortage": 0.2346073558554951,
+              "ordering": 0.0,
+              "production": 0.7173723667001825
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9733475835142156,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.057692307692307696,
+            "perfect_service_rate": 0.9423076923076923,
+            "service_level_std": 0.14491590952289352,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.9901162790697674
+          }
+        },
+        "SKU_001": {
+          "n_periods": 104,
+          "avg_demand": 69.73076923076923,
+          "demand_volatility": 17.72291083131036,
+          "unit_cost": 95.25883643336766,
+          "prediction_metrics": {
+            "mae": 17.841383589366757,
+            "mse": 562.7168407555413,
+            "rmse": 23.721653415298466,
+            "r2": 0.40836976000211855,
+            "mape": 103836296.04309417,
+            "smape": 41.369551350237366,
+            "prediction_std": 23.71943144340979,
+            "mean_true": 68.8108058217264,
+            "mean_pred": "68.48613",
+            "std_true": 30.84038382033816,
+            "std_pred": "28.465422",
+            "min_true": 0.0,
+            "max_true": 140.5,
+            "min_pred": "0.0",
+            "max_pred": "122.18151"
+          },
+          "cost_metrics": {
+            "total_cost": 570741.218265941,
+            "avg_cost_per_period": 5487.896329480202,
+            "holding_cost_total": 27951.964915325472,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 542789.2533506155,
+            "cost_breakdown": {
+              "holding": 0.048974848882039304,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9510251511179606
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_002": {
+          "n_periods": 104,
+          "avg_demand": 202.26923076923077,
+          "demand_volatility": 49.43490979256112,
+          "unit_cost": 26.914129444367248,
+          "prediction_metrics": {
+            "mae": 19.04774038747126,
+            "mse": 625.4056557347566,
+            "rmse": 25.008111798669578,
+            "r2": 0.8742109485816724,
+            "mape": 10.320015747152187,
+            "smape": 10.106406003661409,
+            "prediction_std": 24.820014966055904,
+            "mean_true": 202.58605145079758,
+            "mean_pred": "205.64749",
+            "std_true": 70.5114232961867,
+            "std_pred": "54.475227",
+            "min_true": 53.0,
+            "max_true": 454.8493508829482,
+            "min_pred": "24.88813",
+            "max_pred": "340.38266"
+          },
+          "cost_metrics": {
+            "total_cost": 494473.44971410395,
+            "avg_cost_per_period": 4754.552401097153,
+            "holding_cost_total": 33976.1232527766,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 460497.3264613274,
+            "cost_breakdown": {
+              "holding": 0.06871172410251958,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9312882758974805
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_003": {
+          "n_periods": 104,
+          "avg_demand": 44.72115384615385,
+          "demand_volatility": 11.208055988620986,
+          "unit_cost": 28.499848843195824,
+          "prediction_metrics": {
+            "mae": 18.11505435129195,
+            "mse": 471.3813607997942,
+            "rmse": 21.711318725489573,
+            "r2": -0.18303320576890458,
+            "mape": 51.05373664129533,
+            "smape": 64.04221642633668,
+            "prediction_std": 21.25804577430508,
+            "mean_true": 44.33627652087461,
+            "mean_pred": "48.749535",
+            "std_true": 19.961250075437288,
+            "std_pred": "29.654364",
+            "min_true": 0.0,
+            "max_true": 91.5,
+            "min_pred": "0.0",
+            "max_pred": "91.40792"
+          },
+          "cost_metrics": {
+            "total_cost": 123780.94197386125,
+            "avg_cost_per_period": 1190.2013651332813,
+            "holding_cost_total": 8186.657599836833,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 115594.28437402441,
+            "cost_breakdown": {
+              "holding": 0.06613827192853003,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9338617280714699
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_004": {
+          "n_periods": 104,
+          "avg_demand": 35.52884615384615,
+          "demand_volatility": 9.791968901420839,
+          "unit_cost": 28.28944352554445,
+          "prediction_metrics": {
+            "mae": 24.777130591841946,
+            "mse": 877.3477394711567,
+            "rmse": 29.620056371842992,
+            "r2": -1.5214302893344218,
+            "mape": 80.04075496245906,
+            "smape": 124.22399804289479,
+            "prediction_std": 26.89974573896522,
+            "mean_true": 35.156571724754215,
+            "mean_pred": "22.756918",
+            "std_true": 18.653588756179058,
+            "std_pred": "28.6502",
+            "min_true": 0.0,
+            "max_true": 85.5,
+            "min_pred": "0.0",
+            "max_pred": "81.31774"
+          },
+          "cost_metrics": {
+            "total_cost": 58393.46444038853,
+            "avg_cost_per_period": 561.4756196191205,
+            "holding_cost_total": 3487.1749820606706,
+            "shortage_cost_total": 1343.7485674633615,
+            "ordering_cost_total": "0",
+            "production_cost_total": 53562.540890864504,
+            "cost_breakdown": {
+              "holding": 0.05971858350039469,
+              "shortage": 0.023011968554034652,
+              "ordering": 0.0,
+              "production": 0.9172694479455707
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9976928851928851,
+            "median_service_level": 1.0,
+            "min_service_level": 0.8378378378378378,
+            "stockout_frequency": 0.019230769230769232,
+            "perfect_service_rate": 0.9807692307692307,
+            "service_level_std": 0.01748416331913603,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_005": {
+          "n_periods": 104,
+          "avg_demand": 103.64423076923077,
+          "demand_volatility": 28.07338451005046,
+          "unit_cost": 44.59571980498444,
+          "prediction_metrics": {
+            "mae": 21.658540244888037,
+            "mse": 799.7722905945817,
+            "rmse": 28.280245589361165,
+            "r2": 0.6001497179781239,
+            "mape": 117952858.69076681,
+            "smape": 26.448411215713698,
+            "prediction_std": 28.014109752822463,
+            "mean_true": 104.01776702189139,
+            "mean_pred": "107.88842",
+            "std_true": 44.723365073744375,
+            "std_pred": "28.93622",
+            "min_true": 0.0,
+            "max_true": 215.0,
+            "min_pred": "0.0",
+            "max_pred": "172.64117"
+          },
+          "cost_metrics": {
+            "total_cost": 419967.8601390568,
+            "avg_cost_per_period": 4038.1525013370847,
+            "holding_cost_total": 19662.567035807475,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 400305.2931032493,
+            "cost_breakdown": {
+              "holding": 0.04681921856900417,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9531807814309957
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_006": {
+          "n_periods": 104,
+          "avg_demand": 28.451923076923077,
+          "demand_volatility": 8.280143293741913,
+          "unit_cost": 48.16673930081091,
+          "prediction_metrics": {
+            "mae": 25.68027373796289,
+            "mse": 869.1205968062184,
+            "rmse": 29.48085135823283,
+            "r2": -2.7975980765242374,
+            "mape": 87.46331411245276,
+            "smape": 166.70166205218467,
+            "prediction_std": 19.953917353424902,
+            "mean_true": 28.11816107358887,
+            "mean_pred": "6.4165072",
+            "std_true": 15.128139539040946,
+            "std_pred": "18.191694",
+            "min_true": 0.0,
+            "max_true": 59.5,
+            "min_pred": "0.0",
+            "max_pred": "77.92973"
+          },
+          "cost_metrics": {
+            "total_cost": 35971.433278769844,
+            "avg_cost_per_period": 345.8791661420177,
+            "holding_cost_total": 3634.528963210675,
+            "shortage_cost_total": 6622.9266538615,
+            "ordering_cost_total": "0",
+            "production_cost_total": 25713.977661697663,
+            "cost_breakdown": {
+              "holding": 0.10103931458732715,
+              "shortage": 0.18411628479008418,
+              "ordering": 0.0,
+              "production": 0.7148444006225885
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9918800325050326,
+            "median_service_level": 1.0,
+            "min_service_level": 0.7297297297297297,
+            "stockout_frequency": 0.057692307692307696,
+            "perfect_service_rate": 0.9423076923076923,
+            "service_level_std": 0.039558623814007654,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.9858333333333333
+          }
+        },
+        "SKU_007": {
+          "n_periods": 104,
+          "avg_demand": 137.2403846153846,
+          "demand_volatility": 34.686528313634625,
+          "unit_cost": 94.2821548472715,
+          "prediction_metrics": {
+            "mae": 25.581057309157433,
+            "mse": 1031.3169754973349,
+            "rmse": 32.11412423681105,
+            "r2": 0.6085531676686773,
+            "mape": 77158558.73020948,
+            "smape": 22.27649726914019,
+            "prediction_std": 26.01036863186989,
+            "mean_true": 136.76034514625928,
+            "mean_pred": "155.59589",
+            "std_true": 51.328632231166665,
+            "std_pred": "42.80594",
+            "min_true": 0.0,
+            "max_true": 238.5,
+            "min_pred": "0.0",
+            "max_pred": "232.49202"
+          },
+          "cost_metrics": {
+            "total_cost": 1305268.0178618224,
+            "avg_cost_per_period": 12550.654017902138,
+            "holding_cost_total": 84731.0343321524,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 1220536.9835296702,
+            "cost_breakdown": {
+              "holding": 0.06491466363433272,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9350853363656674
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_008": {
+          "n_periods": 104,
+          "avg_demand": 46.99038461538461,
+          "demand_volatility": 13.002236695043502,
+          "unit_cost": 10.132834676303297,
+          "prediction_metrics": {
+            "mae": 18.828849610076986,
+            "mse": 510.5241141928578,
+            "rmse": 22.59478068477005,
+            "r2": -0.04689503769934844,
+            "mape": 39271551.240829095,
+            "smape": 61.43633547423517,
+            "prediction_std": 22.102199582316977,
+            "mean_true": 47.34802798911748,
+            "mean_pred": "52.04024",
+            "std_true": 22.082923074926423,
+            "std_pred": "28.000721",
+            "min_true": 0.0,
+            "max_true": 118.5,
+            "min_pred": "0.0",
+            "max_pred": "95.0486"
+          },
+          "cost_metrics": {
+            "total_cost": 46944.93955589052,
+            "avg_cost_per_period": 451.3936495758704,
+            "holding_cost_total": 3072.3161282236224,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 43872.62342766689,
+            "cost_breakdown": {
+              "holding": 0.06544509711352087,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9345549028864789
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_009": {
+          "n_periods": 104,
+          "avg_demand": 106.73076923076923,
+          "demand_volatility": 27.602318310271844,
+          "unit_cost": 59.13491980242063,
+          "prediction_metrics": {
+            "mae": 20.231928149064935,
+            "mse": 913.7144539033786,
+            "rmse": 30.227710034062763,
+            "r2": 0.6520904266061164,
+            "mape": 71379510.48248492,
+            "smape": 22.887229121374837,
+            "prediction_std": 30.174700586266216,
+            "mean_true": 106.84562725513464,
+            "mean_pred": "108.63501",
+            "std_true": 51.24742609684068,
+            "std_pred": "33.6259",
+            "min_true": 0.0,
+            "max_true": 412.44523453400353,
+            "min_pred": "0.0",
+            "max_pred": "235.62436"
+          },
+          "cost_metrics": {
+            "total_cost": 573759.2813563996,
+            "avg_cost_per_period": 5516.916166888458,
+            "holding_cost_total": 39272.26993892505,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 534487.0114174747,
+            "cost_breakdown": {
+              "holding": 0.06844729351668728,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9315527064833129
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_010": {
+          "n_periods": 104,
+          "avg_demand": 48.27884615384615,
+          "demand_volatility": 15.42690672438573,
+          "unit_cost": 47.84527186400134,
+          "prediction_metrics": {
+            "mae": 20.577571380914733,
+            "mse": 642.8769170914755,
+            "rmse": 25.355017592016683,
+            "r2": 0.0638056880249992,
+            "mape": 61.40470200188266,
+            "smape": 73.6906859700891,
+            "prediction_std": 25.341738905592514,
+            "mean_true": 48.27842124182133,
+            "mean_pred": "49.098896",
+            "std_true": 26.204804084658097,
+            "std_pred": "31.712482",
+            "min_true": 0.0,
+            "max_true": 128.5,
+            "min_pred": "0.0",
+            "max_pred": "86.41769"
+          },
+          "cost_metrics": {
+            "total_cost": 209796.39252582466,
+            "avg_cost_per_period": 2017.2730050560062,
+            "holding_cost_total": 14347.09204862574,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 195449.30047719897,
+            "cost_breakdown": {
+              "holding": 0.06838579003144538,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9316142099685548
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_011": {
+          "n_periods": 104,
+          "avg_demand": 207.26923076923077,
+          "demand_volatility": 55.9787114128342,
+          "unit_cost": 57.56217612814398,
+          "prediction_metrics": {
+            "mae": 24.74272803399903,
+            "mse": 841.7958582159378,
+            "rmse": 29.0137184486225,
+            "r2": 0.8802978745799391,
+            "mape": 48368520.31301149,
+            "smape": 16.602576904961023,
+            "prediction_std": 27.480996042965995,
+            "mean_true": 205.42151780071833,
+            "mean_pred": "214.72694",
+            "std_true": 83.85953722147921,
+            "std_pred": "67.46949",
+            "min_true": 0.0,
+            "max_true": 403.5,
+            "min_pred": "0.0",
+            "max_pred": "328.3824"
+          },
+          "cost_metrics": {
+            "total_cost": 1104735.9117970583,
+            "avg_cost_per_period": 10622.460690356329,
+            "holding_cost_total": 76371.47994098271,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 1028364.4318560755,
+            "cost_breakdown": {
+              "holding": 0.06913098336483903,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.930869016635161
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_012": {
+          "n_periods": 104,
+          "avg_demand": 182.73076923076923,
+          "demand_volatility": 52.79383436515437,
+          "unit_cost": 64.21159434973517,
+          "prediction_metrics": {
+            "mae": 24.444073257779635,
+            "mse": 878.2814975692526,
+            "rmse": 29.635814440795322,
+            "r2": 0.8214510785176056,
+            "mape": 18.95131553010759,
+            "smape": 15.554992985715755,
+            "prediction_std": 28.57090781916557,
+            "mean_true": 182.09996215493538,
+            "mean_pred": "189.97299",
+            "std_true": 70.13555713907402,
+            "std_pred": "55.61494",
+            "min_true": 0.0,
+            "max_true": 329.5,
+            "min_pred": "0.0",
+            "max_pred": "288.25848"
+          },
+          "cost_metrics": {
+            "total_cost": 1065163.8663129427,
+            "avg_cost_per_period": 10241.960253009065,
+            "holding_cost_total": 50251.22808081565,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 1014912.6382321272,
+            "cost_breakdown": {
+              "holding": 0.04717699282717872,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9528230071728214
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_013": {
+          "n_periods": 104,
+          "avg_demand": 145.94230769230768,
+          "demand_volatility": 38.77388444573489,
+          "unit_cost": 15.859157685353887,
+          "prediction_metrics": {
+            "mae": 23.304240891415766,
+            "mse": 1010.1227269266528,
+            "rmse": 31.782427958333404,
+            "r2": 0.7162427750752174,
+            "mape": 24.042520460363264,
+            "smape": 18.54849080266825,
+            "prediction_std": 31.536788209013626,
+            "mean_true": 144.9043837444924,
+            "mean_pred": "148.8482",
+            "std_true": 59.66417050831164,
+            "std_pred": "42.15968",
+            "min_true": 18.0,
+            "max_true": 409.4559094272105,
+            "min_pred": "61.68883",
+            "max_pred": "259.03668"
+          },
+          "cost_metrics": {
+            "total_cost": 206035.62017182336,
+            "avg_cost_per_period": 1981.1117324213785,
+            "holding_cost_total": 9633.106560141146,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 196402.5136116822,
+            "cost_breakdown": {
+              "holding": 0.04675456871053471,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9532454312894652
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_014": {
+          "n_periods": 104,
+          "avg_demand": 57.82692307692308,
+          "demand_volatility": 15.173074201752573,
+          "unit_cost": 52.31928309768278,
+          "prediction_metrics": {
+            "mae": 18.9765798736268,
+            "mse": 600.6124158414569,
+            "rmse": 24.507395125583155,
+            "r2": 0.38792003922890694,
+            "mape": 57590485.854482174,
+            "smape": 42.04193527867526,
+            "prediction_std": 21.54073079336289,
+            "mean_true": 58.05724746449252,
+            "mean_pred": "69.74525",
+            "std_true": 31.32514372440536,
+            "std_pred": "23.211014",
+            "min_true": 0.0,
+            "max_true": 253.35373630722222,
+            "min_pred": "0.0",
+            "max_pred": "151.19266"
+          },
+          "cost_metrics": {
+            "total_cost": 323222.8511163748,
+            "avg_cost_per_period": 3107.912029965142,
+            "holding_cost_total": 19624.277160326,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 303598.5739560488,
+            "cost_breakdown": {
+              "holding": 0.06071438666092447,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9392856133390757
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_015": {
+          "n_periods": 104,
+          "avg_demand": 86.99038461538461,
+          "demand_volatility": 23.151881465328373,
+          "unit_cost": 41.91003429541708,
+          "prediction_metrics": {
+            "mae": 19.38542857801989,
+            "mse": 669.2882757554946,
+            "rmse": 25.870606404866017,
+            "r2": 0.6108811117868231,
+            "mape": 144797993.80018824,
+            "smape": 29.436517962717236,
+            "prediction_std": 25.275859756985184,
+            "mean_true": 86.5564506447231,
+            "mean_pred": "92.071815",
+            "std_true": 41.473000070987034,
+            "std_pred": "25.685396",
+            "min_true": 0.0,
+            "max_true": 303.8708670512025,
+            "min_pred": "0.0",
+            "max_pred": "177.29025"
+          },
+          "cost_metrics": {
+            "total_cost": 336442.93031840713,
+            "avg_cost_per_period": 3235.02817613853,
+            "holding_cost_total": 15396.368299305403,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 321046.56201910175,
+            "cost_breakdown": {
+              "holding": 0.0457621989106277,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9542378010893724
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_016": {
+          "n_periods": 104,
+          "avg_demand": 71.57692307692308,
+          "demand_volatility": 19.64574229803057,
+          "unit_cost": 82.92715698511354,
+          "prediction_metrics": {
+            "mae": 25.26516545190401,
+            "mse": 1086.1900436373182,
+            "rmse": 32.95739740388064,
+            "r2": 0.45254209685492397,
+            "mape": 185953346.06484386,
+            "smape": 40.05633665171197,
+            "prediction_std": 29.256835384254742,
+            "mean_true": 70.93537500642954,
+            "mean_pred": "86.10863",
+            "std_true": 44.542803105032164,
+            "std_pred": "25.443535",
+            "min_true": 0.0,
+            "max_true": 357.1790006686716,
+            "min_pred": "0.0",
+            "max_pred": "205.72054"
+          },
+          "cost_metrics": {
+            "total_cost": 632947.2570741775,
+            "avg_cost_per_period": 6086.031318020938,
+            "holding_cost_total": 38837.375574251375,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 594109.8814999261,
+            "cost_breakdown": {
+              "holding": 0.061359576394688246,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9386404236053117
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_017": {
+          "n_periods": 104,
+          "avg_demand": 158.18269230769232,
+          "demand_volatility": 39.66553477506366,
+          "unit_cost": 55.26903197575506,
+          "prediction_metrics": {
+            "mae": 26.95478180856749,
+            "mse": 1099.7908485840571,
+            "rmse": 33.163094677428056,
+            "r2": 0.7148345018039141,
+            "mape": 83252853.67781825,
+            "smape": 21.194211488228294,
+            "prediction_std": 30.53886662915117,
+            "mean_true": 157.8085367618052,
+            "mean_pred": "170.7379",
+            "std_true": 62.10213928886053,
+            "std_pred": "46.328453",
+            "min_true": 0.0,
+            "max_true": 328.9878232277373,
+            "min_pred": "55.948044",
+            "max_pred": "300.3815"
+          },
+          "cost_metrics": {
+            "total_cost": 822889.9352676864,
+            "avg_cost_per_period": 7912.403223727753,
+            "holding_cost_total": 37771.59276152751,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 785118.3425061587,
+            "cost_breakdown": {
+              "holding": 0.04590114806695308,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9540988519330468
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_018": {
+          "n_periods": 104,
+          "avg_demand": 26.490384615384617,
+          "demand_volatility": 8.615852619183384,
+          "unit_cost": 75.61449812496151,
+          "prediction_metrics": {
+            "mae": 24.347132785962177,
+            "mse": 849.575080751688,
+            "rmse": 29.147471258270212,
+            "r2": -1.676929467888172,
+            "mape": 89.49813239833237,
+            "smape": 177.4731505180815,
+            "prediction_std": 16.61730901396127,
+            "mean_true": 25.942307692307693,
+            "mean_pred": "1.9956979",
+            "std_true": 17.814860194049704,
+            "std_pred": "11.357711",
+            "min_true": 0.0,
+            "max_true": 97.56773895350638,
+            "min_pred": "0.0",
+            "max_pred": "84.24877"
+          },
+          "cost_metrics": {
+            "total_cost": 51396.92591510095,
+            "avg_cost_per_period": 494.2012107221245,
+            "holding_cost_total": 4789.604266396122,
+            "shortage_cost_total": 34052.13439109716,
+            "ordering_cost_total": "0",
+            "production_cost_total": 12555.187257607671,
+            "cost_breakdown": {
+              "holding": 0.09318853571724776,
+              "shortage": 0.662532511133945,
+              "ordering": 0.0,
+              "production": 0.24427895314880743
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9764135263654888,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.0673076923076923,
+            "perfect_service_rate": 0.9326923076923077,
+            "service_level_std": 0.1210502246976606,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.9106698485537561
+          }
+        },
+        "SKU_019": {
+          "n_periods": 104,
+          "avg_demand": 178.02884615384616,
+          "demand_volatility": 45.62775869691889,
+          "unit_cost": 28.40577162063229,
+          "prediction_metrics": {
+            "mae": 17.714604194479005,
+            "mse": 581.1705836835331,
+            "rmse": 24.107479828541454,
+            "r2": 0.8807009214109883,
+            "mape": 9.747654903520548,
+            "smape": 9.784354494257316,
+            "prediction_std": 22.182421311560613,
+            "mean_true": 174.658345024271,
+            "mean_pred": "165.2185",
+            "std_true": 69.79643928552647,
+            "std_pred": "55.388298",
+            "min_true": 0.0,
+            "max_true": 325.5,
+            "min_pred": "0.0",
+            "max_pred": "263.10324"
+          },
+          "cost_metrics": {
+            "total_cost": 421514.8125326949,
+            "avg_cost_per_period": 4053.0270435836046,
+            "holding_cost_total": 31043.997332905834,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 390470.8151997891,
+            "cost_breakdown": {
+              "holding": 0.07364865103168325,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.926351348968317
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_020": {
+          "n_periods": 104,
+          "avg_demand": 145.58653846153845,
+          "demand_volatility": 36.550699082717955,
+          "unit_cost": 60.805085218449044,
+          "prediction_metrics": {
+            "mae": 21.736472351237605,
+            "mse": 755.8671022108848,
+            "rmse": 27.493037340586522,
+            "r2": 0.7530522989628587,
+            "mape": 9620685.023659373,
+            "smape": 20.01428874725524,
+            "prediction_std": 26.519191029003967,
+            "mean_true": 143.95919891271058,
+            "mean_pred": "136.70665",
+            "std_true": 55.32484784515181,
+            "std_pred": "41.822754",
+            "min_true": 0.0,
+            "max_true": 259.0,
+            "min_pred": "10.005492",
+            "max_pred": "212.8388"
+          },
+          "cost_metrics": {
+            "total_cost": 728006.8810818399,
+            "avg_cost_per_period": 7000.066164248461,
+            "holding_cost_total": 36410.30051743799,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 691596.5805644019,
+            "cost_breakdown": {
+              "holding": 0.05001367633137093,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9499863236686291
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_021": {
+          "n_periods": 104,
+          "avg_demand": 163.54807692307693,
+          "demand_volatility": 39.58299129865459,
+          "unit_cost": 85.33060430044253,
+          "prediction_metrics": {
+            "mae": 19.592543476227316,
+            "mse": 692.8370472563919,
+            "rmse": 26.321797948779864,
+            "r2": 0.8127896688507807,
+            "mape": 12.101205905525148,
+            "smape": 12.287868881591443,
+            "prediction_std": 20.862484238297284,
+            "mean_true": 162.39340564182507,
+            "mean_pred": "146.34367",
+            "std_true": 60.83459839041728,
+            "std_pred": "45.21058",
+            "min_true": 0.0,
+            "max_true": 388.11418674980905,
+            "min_pred": "0.0",
+            "max_pred": "289.17053"
+          },
+          "cost_metrics": {
+            "total_cost": 1122729.103483546,
+            "avg_cost_per_period": 10795.47214888025,
+            "holding_cost_total": 83761.25193807791,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 1038967.8515454681,
+            "cost_breakdown": {
+              "holding": 0.0746050420160908,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9253949579839091
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_022": {
+          "n_periods": 104,
+          "avg_demand": 49.93269230769231,
+          "demand_volatility": 13.595590678046642,
+          "unit_cost": 46.14651667794311,
+          "prediction_metrics": {
+            "mae": 19.81156535352129,
+            "mse": 557.9146764385873,
+            "rmse": 23.620217535801554,
+            "r2": 0.13338243823258888,
+            "mape": 52078307.4920453,
+            "smape": 54.073020166265586,
+            "prediction_std": 22.19124511117709,
+            "mean_true": 49.4480652141748,
+            "mean_pred": "57.539005",
+            "std_true": 25.372902476306944,
+            "std_pred": "26.474009",
+            "min_true": 0.0,
+            "max_true": 149.99878227417898,
+            "min_pred": "0.0",
+            "max_pred": "111.82913"
+          },
+          "cost_metrics": {
+            "total_cost": 235849.2387121691,
+            "avg_cost_per_period": 2267.7811414631647,
+            "holding_cost_total": 14934.545081885242,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 220914.69363028387,
+            "cost_breakdown": {
+              "holding": 0.06332242225344382,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9366775777465561
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_023": {
+          "n_periods": 104,
+          "avg_demand": 72.50961538461539,
+          "demand_volatility": 19.230333639577594,
+          "unit_cost": 20.143019679156986,
+          "prediction_metrics": {
+            "mae": 25.837924618691886,
+            "mse": 1322.336826058449,
+            "rmse": 36.36394953877328,
+            "r2": 0.44757061445989166,
+            "mape": 108351872.06827584,
+            "smape": 36.05419530151644,
+            "prediction_std": 32.218456469339294,
+            "mean_true": 72.6076923076923,
+            "mean_pred": "89.469124",
+            "std_true": 48.92520571413175,
+            "std_pred": "27.427027",
+            "min_true": 0.0,
+            "max_true": 453.7023705848808,
+            "min_pred": "0.0",
+            "max_pred": "227.45227"
+          },
+          "cost_metrics": {
+            "total_cost": 159486.93012287826,
+            "avg_cost_per_period": 1533.5281742584448,
+            "holding_cost_total": 9545.692948046923,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 149941.23717483133,
+            "cost_breakdown": {
+              "holding": 0.05985250917233375,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9401474908276662
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_024": {
+          "n_periods": 104,
+          "avg_demand": 66.0673076923077,
+          "demand_volatility": 17.177691800522172,
+          "unit_cost": 46.202072548771724,
+          "prediction_metrics": {
+            "mae": 21.06056088348096,
+            "mse": 657.2438306767027,
+            "rmse": 25.636767165083484,
+            "r2": 0.2664544303434727,
+            "mape": 112368853.8952976,
+            "smape": 34.46904192007084,
+            "prediction_std": 21.56078534969874,
+            "mean_true": 65.85128409726363,
+            "mean_pred": "79.72127",
+            "std_true": 29.93296307111626,
+            "std_pred": "19.414011",
+            "min_true": 0.0,
+            "max_true": 151.5,
+            "min_pred": "0.0",
+            "max_pred": "150.15613"
+          },
+          "cost_metrics": {
+            "total_cost": 326729.2964529095,
+            "avg_cost_per_period": 3141.627850508745,
+            "holding_cost_total": 20279.762992872857,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 306449.5334600366,
+            "cost_breakdown": {
+              "holding": 0.06206900701295306,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.937930992987047
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_025": {
+          "n_periods": 104,
+          "avg_demand": 161.1153846153846,
+          "demand_volatility": 37.55237318585164,
+          "unit_cost": 31.15200569346973,
+          "prediction_metrics": {
+            "mae": 23.130733224409063,
+            "mse": 858.5498548625602,
+            "rmse": 29.30102139623396,
+            "r2": 0.729007608784147,
+            "mape": 79073094.32619047,
+            "smape": 17.275476210669723,
+            "prediction_std": 29.300819523624735,
+            "mean_true": 159.99652045174622,
+            "mean_pred": "160.10529",
+            "std_true": 56.28649568927229,
+            "std_pred": "38.30533",
+            "min_true": 0.0,
+            "max_true": 321.838126981609,
+            "min_pred": "78.13253",
+            "max_pred": "239.82773"
+          },
+          "cost_metrics": {
+            "total_cost": 435739.8424959219,
+            "avg_cost_per_period": 4189.806177845403,
+            "holding_cost_total": 20771.455583778126,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 414968.3869121438,
+            "cost_breakdown": {
+              "holding": 0.04766939709896399,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9523306029010361
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_026": {
+          "n_periods": 104,
+          "avg_demand": 49.58653846153846,
+          "demand_volatility": 12.886065761668311,
+          "unit_cost": 66.16950597940016,
+          "prediction_metrics": {
+            "mae": 22.181710487037044,
+            "mse": 777.5462779297385,
+            "rmse": 27.884516813632228,
+            "r2": -0.24573799564559562,
+            "mape": 71.99552140559604,
+            "smape": 66.43516573637966,
+            "prediction_std": 27.418156675233547,
+            "mean_true": 48.80684785281839,
+            "mean_pred": "53.88533",
+            "std_true": 24.98329798303992,
+            "std_pred": "31.444788",
+            "min_true": 0.0,
+            "max_true": 115.0,
+            "min_pred": "0.0",
+            "max_pred": "110.42362"
+          },
+          "cost_metrics": {
+            "total_cost": 317904.38127068966,
+            "avg_cost_per_period": 3056.7728968335546,
+            "holding_cost_total": 21249.32789389141,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 296655.0533767982,
+            "cost_breakdown": {
+              "holding": 0.06684188437087944,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9331581156291205
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_027": {
+          "n_periods": 104,
+          "avg_demand": 109.48076923076923,
+          "demand_volatility": 28.62817566875308,
+          "unit_cost": 69.69136667248955,
+          "prediction_metrics": {
+            "mae": 21.848065066121514,
+            "mse": 760.820695028974,
+            "rmse": 27.582978356750637,
+            "r2": 0.6298433632107964,
+            "mape": 124489774.26075268,
+            "smape": 24.18923045312005,
+            "prediction_std": 27.428343153603215,
+            "mean_true": 109.10889059008485,
+            "mean_pred": "106.19227",
+            "std_true": 45.336541656208794,
+            "std_pred": "29.366386",
+            "min_true": 0.0,
+            "max_true": 211.0,
+            "min_pred": "0.0",
+            "max_pred": "182.86006"
+          },
+          "cost_metrics": {
+            "total_cost": 663290.6234170876,
+            "avg_cost_per_period": 6377.794455933535,
+            "holding_cost_total": 47553.690287974525,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 615736.9331291132,
+            "cost_breakdown": {
+              "holding": 0.07169359645548919,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.928306403544511
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_028": {
+          "n_periods": 104,
+          "avg_demand": 61.51923076923077,
+          "demand_volatility": 14.999663924539815,
+          "unit_cost": 11.316351876127284,
+          "prediction_metrics": {
+            "mae": 20.504875807948558,
+            "mse": 641.1464454965264,
+            "rmse": 25.320869761849146,
+            "r2": 0.27979435954777876,
+            "mape": 12718501.857101146,
+            "smape": 37.37805432898064,
+            "prediction_std": 20.53141209343075,
+            "mean_true": 61.0031309232375,
+            "mean_pred": "75.822296",
+            "std_true": 29.836670642738383,
+            "std_pred": "21.222845",
+            "min_true": 0.0,
+            "max_true": 198.62561601670086,
+            "min_pred": "0.0",
+            "max_pred": "122.96895"
+          },
+          "cost_metrics": {
+            "total_cost": 76018.01928105754,
+            "avg_cost_per_period": 730.9424930870917,
+            "holding_cost_total": 4629.777931531302,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 71388.24134952623,
+            "cost_breakdown": {
+              "holding": 0.060903690668575046,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9390963093314248
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_029": {
+          "n_periods": 104,
+          "avg_demand": 87.96153846153847,
+          "demand_volatility": 21.866285205267904,
+          "unit_cost": 87.64459129467649,
+          "prediction_metrics": {
+            "mae": 19.211469153975578,
+            "mse": 639.5385123545573,
+            "rmse": 25.28909868608522,
+            "r2": 0.6161292602174693,
+            "mape": 35.8708974583056,
+            "smape": 27.15468953739612,
+            "prediction_std": 25.15977579023826,
+            "mean_true": 87.53835299086852,
+            "mean_pred": "90.092606",
+            "std_true": 40.816977906365835,
+            "std_pred": "23.97537",
+            "min_true": 19.0,
+            "max_true": 300.7887110503254,
+            "min_pred": "0.0",
+            "max_pred": "181.34451"
+          },
+          "cost_metrics": {
+            "total_cost": 688882.0952722742,
+            "avg_cost_per_period": 6623.866300694945,
+            "holding_cost_total": 31924.12976231784,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 656957.9655099562,
+            "cost_breakdown": {
+              "holding": 0.04634193569757409,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9536580643024257
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_030": {
+          "n_periods": 104,
+          "avg_demand": 66.61538461538461,
+          "demand_volatility": 15.746972396510385,
+          "unit_cost": 19.6882631394091,
+          "prediction_metrics": {
+            "mae": 18.447640831637848,
+            "mse": 536.9687352914535,
+            "rmse": 23.172585856814806,
+            "r2": 0.3231005694416529,
+            "mape": 54602342.86098501,
+            "smape": 32.47283802531415,
+            "prediction_std": 19.35613256482397,
+            "mean_true": 65.79451552352769,
+            "mean_pred": "78.53456",
+            "std_true": 28.165173155841227,
+            "std_pred": "18.953037",
+            "min_true": 0.0,
+            "max_true": 129.0,
+            "min_pred": "0.0",
+            "max_pred": "131.3903"
+          },
+          "cost_metrics": {
+            "total_cost": 137289.72300058755,
+            "avg_cost_per_period": 1320.0934903902648,
+            "holding_cost_total": 8645.118685156463,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 128644.60431543106,
+            "cost_breakdown": {
+              "holding": 0.0629698894877912,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9370301105122086
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_031": {
+          "n_periods": 104,
+          "avg_demand": 114.23076923076923,
+          "demand_volatility": 28.175673170766306,
+          "unit_cost": 5.398329889664256,
+          "prediction_metrics": {
+            "mae": 19.99668955947521,
+            "mse": 690.7087760653793,
+            "rmse": 26.281338932127856,
+            "r2": 0.6761350059633029,
+            "mape": 25.228800373259485,
+            "smape": 19.848106624769553,
+            "prediction_std": 25.851258359274194,
+            "mean_true": 114.08456541719524,
+            "mean_pred": "118.81967",
+            "std_true": 46.18122861921266,
+            "std_pred": "33.32948",
+            "min_true": 0.0,
+            "max_true": 304.99480338830233,
+            "min_pred": "0.0",
+            "max_pred": "190.19003"
+          },
+          "cost_metrics": {
+            "total_cost": 57227.3263601992,
+            "avg_cost_per_period": 550.2627534634538,
+            "holding_cost_total": 3860.535303599927,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 53366.79105659927,
+            "cost_breakdown": {
+              "holding": 0.0674596481985025,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9325403518014974
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_032": {
+          "n_periods": 104,
+          "avg_demand": 130.17307692307693,
+          "demand_volatility": 31.034413190700302,
+          "unit_cost": 68.0354900903276,
+          "prediction_metrics": {
+            "mae": 20.64583699164418,
+            "mse": 854.7145572832028,
+            "rmse": 29.235501659509843,
+            "r2": 0.699801421627561,
+            "mape": 24.07220971225491,
+            "smape": 19.213820619631367,
+            "prediction_std": 28.85109885094268,
+            "mean_true": 130.79712474540958,
+            "mean_pred": "135.52245",
+            "std_true": 53.35882220428278,
+            "std_pred": "41.435364",
+            "min_true": 10.799999999999955,
+            "max_true": 406.7009735225963,
+            "min_pred": "0.0",
+            "max_pred": "245.2678"
+          },
+          "cost_metrics": {
+            "total_cost": 822510.7085158055,
+            "avg_cost_per_period": 7908.756812651976,
+            "holding_cost_total": 55378.75580660815,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 767131.9527091974,
+            "cost_breakdown": {
+              "holding": 0.06732891770678263,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9326710822932174
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_033": {
+          "n_periods": 104,
+          "avg_demand": 59.32692307692308,
+          "demand_volatility": 16.48031618351385,
+          "unit_cost": 83.58830612547291,
+          "prediction_metrics": {
+            "mae": 19.800311411448146,
+            "mse": 633.4084352374248,
+            "rmse": 25.16760686353442,
+            "r2": 0.31813349450118455,
+            "mape": 56858940.36914313,
+            "smape": 37.63106509002794,
+            "prediction_std": 21.947662073979686,
+            "mean_true": 58.836247290201804,
+            "mean_pred": "71.15325",
+            "std_true": 30.478405477599548,
+            "std_pred": "21.190994",
+            "min_true": 0.0,
+            "max_true": 134.0,
+            "min_pred": "0.0",
+            "max_pred": "122.13805"
+          },
+          "cost_metrics": {
+            "total_cost": 528038.7820582855,
+            "avg_cost_per_period": 5077.295981329668,
+            "holding_cost_total": 33200.153242923596,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 494838.62881536194,
+            "cost_breakdown": {
+              "holding": 0.06287445992794317,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9371255400720568
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_034": {
+          "n_periods": 104,
+          "avg_demand": 99.66346153846153,
+          "demand_volatility": 26.539441458892135,
+          "unit_cost": 41.19714353691393,
+          "prediction_metrics": {
+            "mae": 17.200238072289782,
+            "mse": 534.4846201493099,
+            "rmse": 23.118923421070235,
+            "r2": 0.6729090675098511,
+            "mape": 38712232.9349227,
+            "smape": 21.136401251690444,
+            "prediction_std": 22.78847517311363,
+            "mean_true": 99.85903599662498,
+            "mean_pred": "103.75391",
+            "std_true": 40.4234479236658,
+            "std_pred": "27.977001",
+            "min_true": 0.0,
+            "max_true": 244.83974364899683,
+            "min_pred": "40.260696",
+            "max_pred": "173.5923"
+          },
+          "cost_metrics": {
+            "total_cost": 372772.05653780454,
+            "avg_cost_per_period": 3584.34669747889,
+            "holding_cost_total": 17144.922192487335,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 355627.13434531714,
+            "cost_breakdown": {
+              "holding": 0.04599304559393279,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9540069544060671
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_035": {
+          "n_periods": 104,
+          "avg_demand": 33.11538461538461,
+          "demand_volatility": 8.230074723094692,
+          "unit_cost": 40.793041752884896,
+          "prediction_metrics": {
+            "mae": 25.250473326903123,
+            "mse": 808.115945503915,
+            "rmse": 28.427380208241402,
+            "r2": -1.3112736612679763,
+            "mape": 82.29419666350056,
+            "smape": 146.28690126848775,
+            "prediction_std": 24.021262937527283,
+            "mean_true": 32.896153846153844,
+            "mean_pred": "17.69435",
+            "std_true": 18.698688767527162,
+            "std_pred": "28.759127",
+            "min_true": 0.0,
+            "max_true": 151.8114152380023,
+            "min_pred": "0.0",
+            "max_pred": "97.1414"
+          },
+          "cost_metrics": {
+            "total_cost": 79905.30339504275,
+            "avg_cost_per_period": 768.3202249523341,
+            "holding_cost_total": 4286.144236996022,
+            "shortage_cost_total": 15564.873740127823,
+            "ordering_cost_total": "0",
+            "production_cost_total": 60054.2854179189,
+            "cost_breakdown": {
+              "holding": 0.05364029738809465,
+              "shortage": 0.19479149792069314,
+              "ordering": 0.0,
+              "production": 0.7515682046912122
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9811581653872679,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.038461538461538464,
+            "perfect_service_rate": 0.9615384615384616,
+            "service_level_std": 0.12340961307592561,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_036": {
+          "n_periods": 104,
+          "avg_demand": 96.89423076923077,
+          "demand_volatility": 28.728024364173717,
+          "unit_cost": 94.92007460810426,
+          "prediction_metrics": {
+            "mae": 19.20438115037198,
+            "mse": 639.2307191027038,
+            "rmse": 25.283012460992534,
+            "r2": 0.6474873211258392,
+            "mape": 76415957.65157713,
+            "smape": 26.651248991238113,
+            "prediction_std": 25.19454282279356,
+            "mean_true": 97.40532065895681,
+            "mean_pred": "95.29208",
+            "std_true": 42.583509204492344,
+            "std_pred": "27.977932",
+            "min_true": 0.0,
+            "max_true": 216.0,
+            "min_pred": "11.24707",
+            "max_pred": "182.38979"
+          },
+          "cost_metrics": {
+            "total_cost": 790248.585029723,
+            "avg_cost_per_period": 7598.5440868242595,
+            "holding_cost_total": 37693.554453461446,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 752555.0305762616,
+            "cost_breakdown": {
+              "holding": 0.04769835108536601,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.952301648914634
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_037": {
+          "n_periods": 104,
+          "avg_demand": 39.42307692307692,
+          "demand_volatility": 10.250922106467318,
+          "unit_cost": 6.50059188033066,
+          "prediction_metrics": {
+            "mae": 25.40763661127824,
+            "mse": 897.7979131216367,
+            "rmse": 29.96327607458231,
+            "r2": -1.1992751038331169,
+            "mape": 79.2690867903355,
+            "smape": 130.91974105708687,
+            "prediction_std": 26.494486350542637,
+            "mean_true": 39.14038461538461,
+            "mean_pred": "25.146095",
+            "std_true": 20.204565567251407,
+            "std_pred": "30.496208",
+            "min_true": 2.1000000000000227,
+            "max_true": 112.76108769290869,
+            "min_pred": "0.0",
+            "max_pred": "91.17868"
+          },
+          "cost_metrics": {
+            "total_cost": 16131.152123775082,
+            "avg_cost_per_period": 155.10723195937578,
+            "holding_cost_total": 864.7679003524091,
+            "shortage_cost_total": 1666.1370521672009,
+            "ordering_cost_total": "0",
+            "production_cost_total": 13600.24717125547,
+            "cost_breakdown": {
+              "holding": 0.0536085639585446,
+              "shortage": 0.10328692206129193,
+              "ordering": 0.0,
+              "production": 0.8431045139801634
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9859366016283386,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.028846153846153848,
+            "perfect_service_rate": 0.9711538461538461,
+            "service_level_std": 0.10399086526920699,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_038": {
+          "n_periods": 104,
+          "avg_demand": 98.57692307692308,
+          "demand_volatility": 26.98136440938604,
+          "unit_cost": 95.81460103953964,
+          "prediction_metrics": {
+            "mae": 19.68789689626471,
+            "mse": 651.0246534517626,
+            "rmse": 25.515184762250158,
+            "r2": 0.641739166767028,
+            "mape": 68072691.04517873,
+            "smape": 24.695190032334448,
+            "prediction_std": 24.148585285006863,
+            "mean_true": 97.29661356216799,
+            "mean_pred": "105.534966",
+            "std_true": 42.62840190550517,
+            "std_pred": "30.13979",
+            "min_true": 0.0,
+            "max_true": 189.0,
+            "min_pred": "0.0",
+            "max_pred": "159.30313"
+          },
+          "cost_metrics": {
+            "total_cost": 882836.1400038991,
+            "avg_cost_per_period": 8488.80903849903,
+            "holding_cost_total": 41535.141700380904,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 841300.9983035182,
+            "cost_breakdown": {
+              "holding": 0.04704739624750462,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9529526037524954
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_039": {
+          "n_periods": 104,
+          "avg_demand": 121.32692307692308,
+          "demand_volatility": 32.57327581372103,
+          "unit_cost": 75.0381680774763,
+          "prediction_metrics": {
+            "mae": 25.877814950826185,
+            "mse": 1152.2878310243161,
+            "rmse": 33.94536538357359,
+            "r2": 0.6259056762999448,
+            "mape": 78858590.77111413,
+            "smape": 26.27012496358611,
+            "prediction_std": 33.920447955973,
+            "mean_true": 122.01213176202097,
+            "mean_pred": "120.71172",
+            "std_true": 55.49960963716546,
+            "std_pred": "37.55114",
+            "min_true": 0.0,
+            "max_true": 338.4617032501812,
+            "min_pred": "0.0",
+            "max_pred": "214.67766"
+          },
+          "cost_metrics": {
+            "total_cost": 809641.4211414707,
+            "avg_cost_per_period": 7785.013664821833,
+            "holding_cost_total": 56016.88789061351,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 753624.5332508571,
+            "cost_breakdown": {
+              "holding": 0.0691872802303497,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9308127197696503
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_040": {
+          "n_periods": 104,
+          "avg_demand": 134.21153846153845,
+          "demand_volatility": 32.22242874326842,
+          "unit_cost": 41.578578940563155,
+          "prediction_metrics": {
+            "mae": 24.233694627355074,
+            "mse": 976.7841394217158,
+            "rmse": 31.253546029558244,
+            "r2": 0.6158129634709648,
+            "mape": 22.271613736746364,
+            "smape": 20.281184875691345,
+            "prediction_std": 28.00984051453792,
+            "mean_true": 134.09539935834263,
+            "mean_pred": "120.23058",
+            "std_true": 50.422914676479074,
+            "std_pred": "32.97591",
+            "min_true": 18.0,
+            "max_true": 317.22153326763305,
+            "min_pred": "58.786884",
+            "max_pred": "207.99455"
+          },
+          "cost_metrics": {
+            "total_cost": 437706.0056424539,
+            "avg_cost_per_period": 4208.711592715903,
+            "holding_cost_total": 21787.78919884559,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 415918.21644360834,
+            "cost_breakdown": {
+              "holding": 0.04977722242322451,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9502227775767755
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_041": {
+          "n_periods": 104,
+          "avg_demand": 16.721153846153847,
+          "demand_volatility": 5.958524497700232,
+          "unit_cost": 21.37197491472358,
+          "prediction_metrics": {
+            "mae": 16.42689856643866,
+            "mse": 404.80148749913957,
+            "rmse": 20.119679110242778,
+            "r2": -1.9992873819735935,
+            "mape": 91.36015573360655,
+            "smape": 181.4164293287073,
+            "prediction_std": 12.007211808834901,
+            "mean_true": 16.42486641484963,
+            "mean_pred": "0.2808783",
+            "std_true": 11.617482036776899,
+            "std_pred": "2.850604",
+            "min_true": 0.0,
+            "max_true": 55.5,
+            "min_pred": "0.0",
+            "max_pred": "29.211344"
+          },
+          "cost_metrics": {
+            "total_cost": 8090.845631872957,
+            "avg_cost_per_period": 77.79659261416305,
+            "holding_cost_total": 839.342862690087,
+            "shortage_cost_total": 6752.059484241689,
+            "ordering_cost_total": "0",
+            "production_cost_total": 499.4432849411823,
+            "cost_breakdown": {
+              "holding": 0.1037398191585305,
+              "shortage": 0.8345307513522104,
+              "ordering": 0.0,
+              "production": 0.06172942948925918
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9768265590450446,
+            "median_service_level": 1.0,
+            "min_service_level": 0.45588235294117646,
+            "stockout_frequency": 0.07692307692307693,
+            "perfect_service_rate": 0.9230769230769231,
+            "service_level_std": 0.09553963100355065,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.8040775401069519
+          }
+        },
+        "SKU_042": {
+          "n_periods": 104,
+          "avg_demand": 114.27884615384616,
+          "demand_volatility": 31.05005565111384,
+          "unit_cost": 94.54001002825873,
+          "prediction_metrics": {
+            "mae": 20.673587549203923,
+            "mse": 651.9511312121266,
+            "rmse": 25.53333372695635,
+            "r2": 0.6847763860363427,
+            "mape": 55269798.05848505,
+            "smape": 22.15231497813872,
+            "prediction_std": 24.249609253689812,
+            "mean_true": 112.98153280066876,
+            "mean_pred": "104.98731",
+            "std_true": 45.47766410784869,
+            "std_pred": "31.041746",
+            "min_true": 0.0,
+            "max_true": 207.5,
+            "min_pred": "0.0",
+            "max_pred": "185.37201"
+          },
+          "cost_metrics": {
+            "total_cost": 891542.9922110785,
+            "avg_cost_per_period": 8572.528771260371,
+            "holding_cost_total": 65741.27286552964,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 825801.7193455489,
+            "cost_breakdown": {
+              "holding": 0.07373875790609655,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9262612420939035
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_043": {
+          "n_periods": 104,
+          "avg_demand": 77.40384615384616,
+          "demand_volatility": 17.762466827046484,
+          "unit_cost": 72.73522418145198,
+          "prediction_metrics": {
+            "mae": 17.246636721832395,
+            "mse": 548.9621178211657,
+            "rmse": 23.429940627777224,
+            "r2": 0.4553598494631419,
+            "mape": 38.0121054949729,
+            "smape": 27.702084902144385,
+            "prediction_std": 23.098169310573624,
+            "mean_true": 76.33292091912618,
+            "mean_pred": "80.26187",
+            "std_true": 31.74799922478534,
+            "std_pred": "19.94416",
+            "min_true": 2.599999999999966,
+            "max_true": 182.72377558912387,
+            "min_pred": "0.0",
+            "max_pred": "150.14651"
+          },
+          "cost_metrics": {
+            "total_cost": 509651.3084734959,
+            "avg_cost_per_period": 4900.493350706691,
+            "holding_cost_total": 23940.891899018596,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 485710.4165744772,
+            "cost_breakdown": {
+              "holding": 0.04697504254570874,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9530249574542912
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_044": {
+          "n_periods": 104,
+          "avg_demand": 108.57692307692308,
+          "demand_volatility": 28.007867240006533,
+          "unit_cost": 72.87246200206009,
+          "prediction_metrics": {
+            "mae": 19.896545526887685,
+            "mse": 637.2126185229471,
+            "rmse": 25.24307070312459,
+            "r2": 0.6792187564812264,
+            "mape": 72526578.4643832,
+            "smape": 24.272180929675415,
+            "prediction_std": 25.227794310181373,
+            "mean_true": 106.71940319290333,
+            "mean_pred": "107.59749",
+            "std_true": 44.56949367735365,
+            "std_pred": "33.484306",
+            "min_true": 0.0,
+            "max_true": 217.0,
+            "min_pred": "0.0",
+            "max_pred": "184.75203"
+          },
+          "cost_metrics": {
+            "total_cost": 701595.9572053507,
+            "avg_cost_per_period": 6746.114973128372,
+            "holding_cost_total": 49233.65801177408,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 652362.2991935767,
+            "cost_breakdown": {
+              "holding": 0.07017380517397115,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9298261948260289
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_045": {
+          "n_periods": 104,
+          "avg_demand": 25.53846153846154,
+          "demand_volatility": 7.748376688021641,
+          "unit_cost": 11.656500737842137,
+          "prediction_metrics": {
+            "mae": 24.740398422571328,
+            "mse": 810.4472303463475,
+            "rmse": 28.468354893571696,
+            "r2": -1.969079297946764,
+            "mape": 93.86059853416917,
+            "smape": 186.9087790314301,
+            "prediction_std": 14.08403053954292,
+            "mean_true": 25.732692307692307,
+            "mean_pred": "0.9922939",
+            "std_true": 16.521576011115968,
+            "std_pred": "8.160617",
+            "min_true": 0.0,
+            "max_true": 113.38076191942395,
+            "min_pred": "0.0",
+            "max_pred": "82.193"
+          },
+          "cost_metrics": {
+            "total_cost": 6900.581381134116,
+            "avg_cost_per_period": 66.3517440493665,
+            "holding_cost_total": 641.4757288684771,
+            "shortage_cost_total": 5296.758341847104,
+            "ordering_cost_total": "0",
+            "production_cost_total": 962.3473104185349,
+            "cost_breakdown": {
+              "holding": 0.09295966432947858,
+              "shortage": 0.7675814615168813,
+              "ordering": 0.0,
+              "production": 0.13945887415364014
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9683909355283257,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.0673076923076923,
+            "perfect_service_rate": 0.9326923076923077,
+            "service_level_std": 0.14027427135469783,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.8348958333333334
+          }
+        },
+        "SKU_046": {
+          "n_periods": 104,
+          "avg_demand": 69.77884615384616,
+          "demand_volatility": 19.895336200708154,
+          "unit_cost": 57.90917458578953,
+          "prediction_metrics": {
+            "mae": 22.89008625132772,
+            "mse": 803.0582492068422,
+            "rmse": 28.338282396906877,
+            "r2": 0.4031965201311204,
+            "mape": 129745019.01299544,
+            "smape": 36.881735807068644,
+            "prediction_std": 24.99616089837636,
+            "mean_true": 70.17891858569944,
+            "mean_pred": "83.52996",
+            "std_true": 36.68240913448803,
+            "std_pred": "26.628357",
+            "min_true": 0.0,
+            "max_true": 175.5,
+            "min_pred": "0.0",
+            "max_pred": "184.0115"
+          },
+          "cost_metrics": {
+            "total_cost": 429205.43867075554,
+            "avg_cost_per_period": 4126.975371834188,
+            "holding_cost_total": 26754.493575054195,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 402450.94509570126,
+            "cost_breakdown": {
+              "holding": 0.06233493605745669,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9376650639425431
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_047": {
+          "n_periods": 104,
+          "avg_demand": 74.71153846153847,
+          "demand_volatility": 20.326305628981824,
+          "unit_cost": 29.853162497217635,
+          "prediction_metrics": {
+            "mae": 17.278846563985137,
+            "mse": 659.1542984796926,
+            "rmse": 25.674000437791,
+            "r2": 0.6092131539489221,
+            "mape": 101662768.57348362,
+            "smape": 36.44526787519708,
+            "prediction_std": 25.628257524773158,
+            "mean_true": 74.625,
+            "mean_pred": "73.0931",
+            "std_true": 41.0698934214832,
+            "std_pred": "30.913992",
+            "min_true": 0.0,
+            "max_true": 342.39258943864695,
+            "min_pred": "0.0",
+            "max_pred": "186.78679"
+          },
+          "cost_metrics": {
+            "total_cost": 196379.371418083,
+            "avg_cost_per_period": 1888.2631867123366,
+            "holding_cost_total": 9087.70026692968,
+            "shortage_cost_total": 5744.260859634274,
+            "ordering_cost_total": "0",
+            "production_cost_total": 181547.41029151902,
+            "cost_breakdown": {
+              "holding": 0.04627624684459534,
+              "shortage": 0.029250836369187662,
+              "ordering": 0.0,
+              "production": 0.9244729167862169
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9962996699259832,
+            "median_service_level": 1.0,
+            "min_service_level": 0.6151656723022461,
+            "stockout_frequency": 0.009615384615384616,
+            "perfect_service_rate": 0.9903846153846154,
+            "service_level_std": 0.03755424867624682,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_048": {
+          "n_periods": 104,
+          "avg_demand": 19.14423076923077,
+          "demand_volatility": 6.636788130119313,
+          "unit_cost": 5.3179440246060095,
+          "prediction_metrics": {
+            "mae": 19.247378546461917,
+            "mse": 530.9198405421214,
+            "rmse": 23.041697865871807,
+            "r2": -2.937778568831817,
+            "mape": 93.20025085294189,
+            "smape": 183.63627270662647,
+            "prediction_std": 14.607446635146,
+            "mean_true": 18.90374049315475,
+            "mean_pred": "1.0840226",
+            "std_true": 11.611513518492503,
+            "std_pred": "11.001627",
+            "min_true": 0.0,
+            "max_true": 47.5,
+            "min_pred": "0.0",
+            "max_pred": "112.73836"
+          },
+          "cost_metrics": {
+            "total_cost": 1666.2306247399326,
+            "avg_cost_per_period": 16.021448314807046,
+            "holding_cost_total": 242.6665404965902,
+            "shortage_cost_total": 943.9350643675667,
+            "ordering_cost_total": "0",
+            "production_cost_total": 479.62901987577584,
+            "cost_breakdown": {
+              "holding": 0.14563802686945926,
+              "shortage": 0.5665092516919122,
+              "ordering": 0.0,
+              "production": 0.28785272143862856
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9853224703818134,
+            "median_service_level": 1.0,
+            "min_service_level": 0.3695652173913043,
+            "stockout_frequency": 0.04807692307692308,
+            "perfect_service_rate": 0.9519230769230769,
+            "service_level_std": 0.0778701559535101,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_049": {
+          "n_periods": 104,
+          "avg_demand": 49.82692307692308,
+          "demand_volatility": 13.580713271581107,
+          "unit_cost": 44.41064568229949,
+          "prediction_metrics": {
+            "mae": 18.323262413724457,
+            "mse": 551.6406206407365,
+            "rmse": 23.4870309030481,
+            "r2": 0.10153395223512518,
+            "mape": 68.39431478840888,
+            "smape": 53.450552243826124,
+            "prediction_std": 22.360987341505606,
+            "mean_true": 49.225362232002276,
+            "mean_pred": "56.410545",
+            "std_true": 24.77862962266577,
+            "std_pred": "26.822996",
+            "min_true": 0.0,
+            "max_true": 106.5,
+            "min_pred": "0.0",
+            "max_pred": "87.58635"
+          },
+          "cost_metrics": {
+            "total_cost": 222976.75233598688,
+            "avg_cost_per_period": 2144.0072339998737,
+            "holding_cost_total": 14541.718582939058,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 208435.03375304787,
+            "cost_breakdown": {
+              "holding": 0.06521629914596315,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9347837008540371
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_050": {
+          "n_periods": 104,
+          "avg_demand": 190.44230769230768,
+          "demand_volatility": 39.65135116224648,
+          "unit_cost": 61.39914781384955,
+          "prediction_metrics": {
+            "mae": 19.72605895440887,
+            "mse": 722.896451673933,
+            "rmse": 26.88673374870836,
+            "r2": 0.8258485288142878,
+            "mape": 11.479427008176648,
+            "smape": 12.281886285621523,
+            "prediction_std": 23.279912498067922,
+            "mean_true": 190.46601014682452,
+            "mean_pred": "177.01454",
+            "std_true": 64.42797369646843,
+            "std_pred": "50.065937",
+            "min_true": 34.0,
+            "max_true": 412.76505526975313,
+            "min_pred": "0.0",
+            "max_pred": "301.06235"
+          },
+          "cost_metrics": {
+            "total_cost": 974833.190881589,
+            "avg_cost_per_period": 9373.396066169125,
+            "holding_cost_total": 70570.51880106487,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 904262.672080524,
+            "cost_breakdown": {
+              "holding": 0.07239240463001113,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9276075953699888
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_051": {
+          "n_periods": 104,
+          "avg_demand": 154.51923076923077,
+          "demand_volatility": 37.87844143594258,
+          "unit_cost": 85.42598563982303,
+          "prediction_metrics": {
+            "mae": 22.220690914205377,
+            "mse": 737.9333410709461,
+            "rmse": 27.164928512163364,
+            "r2": 0.7391937268986317,
+            "mape": 18.12842325968118,
+            "smape": 16.535813599592075,
+            "prediction_std": 25.360301516243837,
+            "mean_true": 154.74453035124995,
+            "mean_pred": "145.0086",
+            "std_true": 53.192395603267414,
+            "std_pred": "38.960075",
+            "min_true": 18.59999999999991,
+            "max_true": 251.0,
+            "min_pred": "68.69158",
+            "max_pred": "226.89577"
+          },
+          "cost_metrics": {
+            "total_cost": 1083875.4822479782,
+            "avg_cost_per_period": 10421.87963699979,
+            "holding_cost_total": 53235.30700827151,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 1030640.1752397065,
+            "cost_breakdown": {
+              "holding": 0.04911570367645966,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9508842963235402
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_052": {
+          "n_periods": 104,
+          "avg_demand": 39.52884615384615,
+          "demand_volatility": 10.877032657504172,
+          "unit_cost": 55.51467353427519,
+          "prediction_metrics": {
+            "mae": 24.239072082687034,
+            "mse": 792.4614793091798,
+            "rmse": 28.150692341560266,
+            "r2": -1.1589787057750613,
+            "mape": 92.10082331176784,
+            "smape": 119.14076136163929,
+            "prediction_std": 26.430484526546397,
+            "mean_true": 39.57854184792836,
+            "mean_pred": "29.888807",
+            "std_true": 19.15864988504337,
+            "std_pred": "33.196712",
+            "min_true": 0.0,
+            "max_true": 89.66835218454986,
+            "min_pred": "0.0",
+            "max_pred": "84.86016"
+          },
+          "cost_metrics": {
+            "total_cost": 152416.041161228,
+            "avg_cost_per_period": 1465.5388573195,
+            "holding_cost_total": 7934.080355300849,
+            "shortage_cost_total": 6430.9175392619845,
+            "ordering_cost_total": "0",
+            "production_cost_total": 138051.0432666652,
+            "cost_breakdown": {
+              "holding": 0.052055415524853176,
+              "shortage": 0.042193180522641066,
+              "ordering": 0.0,
+              "production": 0.9057514039525059
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9938249381076877,
+            "median_service_level": 1.0,
+            "min_service_level": 0.4362249357485335,
+            "stockout_frequency": 0.019230769230769232,
+            "perfect_service_rate": 0.9807692307692307,
+            "service_level_std": 0.055472458410317976,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_053": {
+          "n_periods": 104,
+          "avg_demand": 159.45192307692307,
+          "demand_volatility": 41.43842778432531,
+          "unit_cost": 25.136197031931893,
+          "prediction_metrics": {
+            "mae": 26.04834400978493,
+            "mse": 1197.156505288462,
+            "rmse": 34.59994949835132,
+            "r2": 0.7154913278260515,
+            "mape": 82832230.57396212,
+            "smape": 20.99916673327104,
+            "prediction_std": 34.0080652978306,
+            "mean_true": 159.55741321778336,
+            "mean_pred": "165.92986",
+            "std_true": 64.86758215291916,
+            "std_pred": "44.137127",
+            "min_true": 0.0,
+            "max_true": 402.7709746494687,
+            "min_pred": "66.70792",
+            "max_pred": "265.0837"
+          },
+          "cost_metrics": {
+            "total_cost": 364111.8676516944,
+            "avg_cost_per_period": 3501.0756504970614,
+            "holding_cost_total": 17097.522002232832,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 347014.34564946155,
+            "cost_breakdown": {
+              "holding": 0.04695678312410334,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9530432168758967
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_054": {
+          "n_periods": 104,
+          "avg_demand": 107.61538461538461,
+          "demand_volatility": 28.76328150537471,
+          "unit_cost": 66.77860530015498,
+          "prediction_metrics": {
+            "mae": 19.929784960288025,
+            "mse": 620.9162334126803,
+            "rmse": 24.91819081339334,
+            "r2": 0.6683606825237762,
+            "mape": 29.338595837458158,
+            "smape": 21.73882344410871,
+            "prediction_std": 24.845733915571184,
+            "mean_true": 106.45018312224951,
+            "mean_pred": "108.34907",
+            "std_true": 43.26966180925684,
+            "std_pred": "31.239656",
+            "min_true": 0.0,
+            "max_true": 244.5,
+            "min_pred": "0.0",
+            "max_pred": "179.51984"
+          },
+          "cost_metrics": {
+            "total_cost": 632179.0885374527,
+            "avg_cost_per_period": 6078.645082090892,
+            "holding_cost_total": 30193.87329859563,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 601985.2152388571,
+            "cost_breakdown": {
+              "holding": 0.04776158187777011,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9522384181222299
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_055": {
+          "n_periods": 104,
+          "avg_demand": 65.99038461538461,
+          "demand_volatility": 18.308306349961292,
+          "unit_cost": 68.54325741090793,
+          "prediction_metrics": {
+            "mae": 19.092179614195825,
+            "mse": 607.2655470508814,
+            "rmse": 24.642758511394,
+            "r2": 0.35598951190342054,
+            "mape": 121780551.2345865,
+            "smape": 38.03430564569062,
+            "prediction_std": 22.13208975719357,
+            "mean_true": 65.4352962965052,
+            "mean_pred": "76.272095",
+            "std_true": 30.707386201712367,
+            "std_pred": "20.62971",
+            "min_true": 0.0,
+            "max_true": 142.5,
+            "min_pred": "0.0",
+            "max_pred": "122.15164"
+          },
+          "cost_metrics": {
+            "total_cost": 464750.1399412566,
+            "avg_cost_per_period": 4468.751345589006,
+            "holding_cost_total": 29785.72634586895,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 434964.4135953876,
+            "cost_breakdown": {
+              "holding": 0.06408976304909515,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9359102369509047
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_056": {
+          "n_periods": 104,
+          "avg_demand": 118.91346153846153,
+          "demand_volatility": 27.844614119686316,
+          "unit_cost": 95.50930147009132,
+          "prediction_metrics": {
+            "mae": 23.194376053070553,
+            "mse": 896.8799486734467,
+            "rmse": 29.947953998118916,
+            "r2": 0.6418486960295544,
+            "mape": 69044136.69607408,
+            "smape": 22.321792811353795,
+            "prediction_std": 29.8721627066908,
+            "mean_true": 118.14928195182497,
+            "mean_pred": "116.020004",
+            "std_true": 50.04191132676844,
+            "std_pred": "31.834784",
+            "min_true": 0.0,
+            "max_true": 361.825322989797,
+            "min_pred": "0.0",
+            "max_pred": "216.53029"
+          },
+          "cost_metrics": {
+            "total_cost": 991645.6222188077,
+            "avg_cost_per_period": 9535.054059796228,
+            "holding_cost_total": 69707.32862517882,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 921938.2935936288,
+            "cost_breakdown": {
+              "holding": 0.07029459623812853,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9297054037618714
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_057": {
+          "n_periods": 104,
+          "avg_demand": 151.22115384615384,
+          "demand_volatility": 39.48059784783791,
+          "unit_cost": 86.9752123078892,
+          "prediction_metrics": {
+            "mae": 25.849881244819308,
+            "mse": 1035.6288419852424,
+            "rmse": 32.18118770314798,
+            "r2": 0.6733590346312878,
+            "mape": 18.98907078521366,
+            "smape": 18.502347029895223,
+            "prediction_std": 30.02552213700296,
+            "mean_true": 150.77388992237528,
+            "mean_pred": "139.19386",
+            "std_true": 56.30756453219156,
+            "std_pred": "36.570454",
+            "min_true": 39.0,
+            "max_true": 311.5,
+            "min_pred": "71.46739",
+            "max_pred": "249.19336"
+          },
+          "cost_metrics": {
+            "total_cost": 1059707.1911836592,
+            "avg_cost_per_period": 10189.4922229198,
+            "holding_cost_total": 52453.34740959051,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 1007253.8437740688,
+            "cost_breakdown": {
+              "holding": 0.04949796306562928,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9505020369343707
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_058": {
+          "n_periods": 104,
+          "avg_demand": 10.923076923076923,
+          "demand_volatility": 4.076197322920544,
+          "unit_cost": 36.86265491713405,
+          "prediction_metrics": {
+            "mae": 10.913461538461538,
+            "mse": 195.74242513504993,
+            "rmse": 13.990797873425587,
+            "r2": -1.5540910104152692,
+            "mape": 84.61537169958463,
+            "smape": 169.23074339916926,
+            "prediction_std": 8.754357908126138,
+            "mean_true": 10.913461538461538,
+            "mean_pred": "0.0",
+            "std_true": 8.754357908126138,
+            "std_pred": "0.0",
+            "min_true": 0.0,
+            "max_true": 44.27868076363733,
+            "min_pred": "0.0",
+            "max_pred": "0.0"
+          },
+          "cost_metrics": {
+            "total_cost": 16740.031156451398,
+            "avg_cost_per_period": 160.9618380428019,
+            "holding_cost_total": 929.881615266561,
+            "shortage_cost_total": 15810.14954118484,
+            "ordering_cost_total": "0",
+            "production_cost_total": "0",
+            "cost_breakdown": {
+              "holding": 0.05554838020168178,
+              "shortage": 0.9444516197983184,
+              "ordering": 0.0,
+              "production": 0.0
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9466992746204956,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.14423076923076922,
+            "perfect_service_rate": 0.8557692307692307,
+            "service_level_std": 0.15782728864022652,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.5984649122807019
+          }
+        },
+        "SKU_059": {
+          "n_periods": 104,
+          "avg_demand": 198.85576923076923,
+          "demand_volatility": 44.17494309516189,
+          "unit_cost": 49.522077500649274,
+          "prediction_metrics": {
+            "mae": 14.903683989012476,
+            "mse": 364.02177471321977,
+            "rmse": 19.079354672347275,
+            "r2": 0.9126693354002311,
+            "mape": 8.997855075680333,
+            "smape": 9.787096997553393,
+            "prediction_std": 18.74602956259195,
+            "mean_true": 196.624648787573,
+            "mean_pred": "193.07387",
+            "std_true": 64.56249403127866,
+            "std_pred": "52.143696",
+            "min_true": 9.399999999999977,
+            "max_true": 323.0,
+            "min_pred": "0.0",
+            "max_pred": "277.57034"
+          },
+          "cost_metrics": {
+            "total_cost": 856297.2814680858,
+            "avg_cost_per_period": 8233.627706423902,
+            "holding_cost_total": 60787.27772508093,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 795510.003743005,
+            "cost_breakdown": {
+              "holding": 0.07098852120710192,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9290114787928981
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_060": {
+          "n_periods": 104,
+          "avg_demand": 184.3653846153846,
+          "demand_volatility": 42.701733143314776,
+          "unit_cost": 97.31231113309786,
+          "prediction_metrics": {
+            "mae": 14.338571457590033,
+            "mse": 325.9483009699473,
+            "rmse": 18.054038356277726,
+            "r2": 0.9143300532444605,
+            "mape": 8.660249997150585,
+            "smape": 8.333023012789182,
+            "prediction_std": 18.05081282107337,
+            "mean_true": 183.78448348696188,
+            "mean_pred": "183.44325",
+            "std_true": 61.682236520696286,
+            "std_pred": "51.826553",
+            "min_true": 0.0,
+            "max_true": 289.5,
+            "min_pred": "0.0",
+            "max_pred": "262.35266"
+          },
+          "cost_metrics": {
+            "total_cost": 1597545.1194358282,
+            "avg_cost_per_period": 15361.01076380604,
+            "holding_cost_total": 112318.27646999701,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 1485226.8429658313,
+            "cost_breakdown": {
+              "holding": 0.0703067945333914,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9296932054666086
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_061": {
+          "n_periods": 104,
+          "avg_demand": 139.3653846153846,
+          "demand_volatility": 35.4576344203274,
+          "unit_cost": 29.51273427729972,
+          "prediction_metrics": {
+            "mae": 23.88004805795439,
+            "mse": 947.3848487703007,
+            "rmse": 30.779617424040552,
+            "r2": 0.6898360749285659,
+            "mape": 72162514.3717292,
+            "smape": 20.19177662079136,
+            "prediction_std": 28.27950194654677,
+            "mean_true": 138.72244592967925,
+            "mean_pred": "126.57113",
+            "std_true": 55.2672143779196,
+            "std_pred": "40.22366",
+            "min_true": 0.0,
+            "max_true": 281.5,
+            "min_pred": "0.0",
+            "max_pred": "205.60977"
+          },
+          "cost_metrics": {
+            "total_cost": 327353.0473646855,
+            "avg_cost_per_period": 3147.6254554296684,
+            "holding_cost_total": 16562.778914305636,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 310790.26845037984,
+            "cost_breakdown": {
+              "holding": 0.05059607371198222,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9494039262880176
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_062": {
+          "n_periods": 104,
+          "avg_demand": 31.048076923076923,
+          "demand_volatility": 8.297127597124046,
+          "unit_cost": 17.976276762842975,
+          "prediction_metrics": {
+            "mae": 26.42204505480253,
+            "mse": 917.1353836764172,
+            "rmse": 30.284243158388772,
+            "r2": -1.7550429682956832,
+            "mape": 90.81294837043745,
+            "smape": 167.01988249406799,
+            "prediction_std": 21.88995279968433,
+            "mean_true": 30.950000000000003,
+            "mean_pred": "10.022379",
+            "std_true": 18.245364175827152,
+            "std_pred": "23.881027",
+            "min_true": 0.0,
+            "max_true": 120.38709589530824,
+            "min_pred": "0.0",
+            "max_pred": "92.23288"
+          },
+          "cost_metrics": {
+            "total_cost": 22753.641012047687,
+            "avg_cost_per_period": 218.78500973122775,
+            "holding_cost_total": 1527.300978116431,
+            "shortage_cost_total": 6236.608197919933,
+            "ordering_cost_total": "0",
+            "production_cost_total": 14989.731836011324,
+            "cost_breakdown": {
+              "holding": 0.06712336620357813,
+              "shortage": 0.27409275705008046,
+              "ordering": 0.0,
+              "production": 0.6587838767463415
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9818706640707794,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.019230769230769232,
+            "perfect_service_rate": 0.9807692307692307,
+            "service_level_std": 0.12971275172273744,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_063": {
+          "n_periods": 104,
+          "avg_demand": 164.75,
+          "demand_volatility": 43.13936548407883,
+          "unit_cost": 51.45468416950848,
+          "prediction_metrics": {
+            "mae": 27.698188059964274,
+            "mse": 1208.493498465933,
+            "rmse": 34.763393080450776,
+            "r2": 0.7377683942360369,
+            "mape": 47704252.67516585,
+            "smape": 21.334125645788482,
+            "prediction_std": 33.53065491781568,
+            "mean_true": 161.95555258245807,
+            "mean_pred": "171.131",
+            "std_true": 67.88590967977794,
+            "std_pred": "49.507614",
+            "min_true": 0.0,
+            "max_true": 327.0,
+            "min_pred": "0.0",
+            "max_pred": "260.6119"
+          },
+          "cost_metrics": {
+            "total_cost": 769329.3802463692,
+            "avg_cost_per_period": 7397.397886984319,
+            "holding_cost_total": 36712.51914394429,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 732616.8611024249,
+            "cost_breakdown": {
+              "holding": 0.04772015743398168,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9522798425660184
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_064": {
+          "n_periods": 104,
+          "avg_demand": 30.51923076923077,
+          "demand_volatility": 8.426703704585163,
+          "unit_cost": 76.80533791314369,
+          "prediction_metrics": {
+            "mae": 24.731021385353344,
+            "mse": 786.1059384393792,
+            "rmse": 28.03758082359067,
+            "r2": -1.7442225150050774,
+            "mape": 83.34664251219662,
+            "smape": 152.3796632284609,
+            "prediction_std": 22.418551332400998,
+            "mean_true": 30.596153846153847,
+            "mean_pred": "13.7582655",
+            "std_true": 16.925085720516094,
+            "std_pred": "26.61921",
+            "min_true": 0.0,
+            "max_true": 116.39759220754613,
+            "min_pred": "0.0",
+            "max_pred": "100.57401"
+          },
+          "cost_metrics": {
+            "total_cost": 126445.29752020509,
+            "avg_cost_per_period": 1215.8201684635105,
+            "holding_cost_total": 7076.313515289914,
+            "shortage_cost_total": 31450.861218867118,
+            "ordering_cost_total": "0",
+            "production_cost_total": 87918.12278604804,
+            "cost_breakdown": {
+              "holding": 0.055963437581845764,
+              "shortage": 0.24873096774390907,
+              "ordering": 0.0,
+              "production": 0.695305594674245
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9764632768161255,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.057692307692307696,
+            "perfect_service_rate": 0.9423076923076923,
+            "service_level_std": 0.12467758735319609,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.97875
+          }
+        },
+        "SKU_065": {
+          "n_periods": 104,
+          "avg_demand": 125.48076923076923,
+          "demand_volatility": 33.28458658684088,
+          "unit_cost": 17.63969026738702,
+          "prediction_metrics": {
+            "mae": 24.300262908089866,
+            "mse": 941.6297407682534,
+            "rmse": 30.68598606478621,
+            "r2": 0.6427637694623911,
+            "mape": 39.67187817847741,
+            "smape": 25.11378841788604,
+            "prediction_std": 30.48048005102797,
+            "mean_true": 123.46897207615721,
+            "mean_pred": "127.014404",
+            "std_true": 51.34076486287985,
+            "std_pred": "39.212063",
+            "min_true": 0.0,
+            "max_true": 239.0,
+            "min_pred": "0.0",
+            "max_pred": "202.98088"
+          },
+          "cost_metrics": {
+            "total_cost": 200343.51105206495,
+            "avg_cost_per_period": 1926.3799139621628,
+            "holding_cost_total": 13934.350436045039,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 186409.16061601992,
+            "cost_breakdown": {
+              "holding": 0.06955229227476104,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.930447707725239
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_066": {
+          "n_periods": 104,
+          "avg_demand": 88.83653846153847,
+          "demand_volatility": 22.983789380978628,
+          "unit_cost": 79.31353653421334,
+          "prediction_metrics": {
+            "mae": 19.220093377513187,
+            "mse": 620.8199524345468,
+            "rmse": 24.916258796909034,
+            "r2": 0.6104978681729594,
+            "mape": 65.12719188840313,
+            "smape": 27.556803919416772,
+            "prediction_std": 24.385523903032887,
+            "mean_true": 87.82553263696893,
+            "mean_pred": "92.94083",
+            "std_true": 39.92343617779529,
+            "std_pred": "27.090519",
+            "min_true": 0.0,
+            "max_true": 263.35539424477,
+            "min_pred": "0.0",
+            "max_pred": "165.89221"
+          },
+          "cost_metrics": {
+            "total_cost": 643254.3468543192,
+            "avg_cost_per_period": 6185.1379505223,
+            "holding_cost_total": 29948.441170876584,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 613305.9056834427,
+            "cost_breakdown": {
+              "holding": 0.04655769730485653,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9534423026951436
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_067": {
+          "n_periods": 104,
+          "avg_demand": 102.3076923076923,
+          "demand_volatility": 25.374123705975617,
+          "unit_cost": 40.33469762474834,
+          "prediction_metrics": {
+            "mae": 19.10355447276745,
+            "mse": 596.837167273691,
+            "rmse": 24.43025106857666,
+            "r2": 0.6126750015473548,
+            "mape": 61643654.20297525,
+            "smape": 22.85880399406127,
+            "prediction_std": 22.368201345739692,
+            "mean_true": 101.30049155696545,
+            "mean_pred": "111.12397",
+            "std_true": 39.25456474980479,
+            "std_pred": "30.641273",
+            "min_true": 0.0,
+            "max_true": 264.5511219244067,
+            "min_pred": "0.0",
+            "max_pred": "169.45953"
+          },
+          "cost_metrics": {
+            "total_cost": 390706.4500717968,
+            "avg_cost_per_period": 3756.792789151892,
+            "holding_cost_total": 17791.425020336883,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 372915.0250514599,
+            "cost_breakdown": {
+              "holding": 0.04553655312592742,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9544634468740726
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_068": {
+          "n_periods": 104,
+          "avg_demand": 82.5,
+          "demand_volatility": 21.555527752737326,
+          "unit_cost": 32.000040532273815,
+          "prediction_metrics": {
+            "mae": 18.854329054946216,
+            "mse": 642.9928056046593,
+            "rmse": 25.357302806187004,
+            "r2": 0.5844079228542229,
+            "mape": 64.02100864862597,
+            "smape": 28.73291063311394,
+            "prediction_std": 25.353679117522343,
+            "mean_true": 82.82179978154628,
+            "mean_pred": "83.25047",
+            "std_true": 39.334118972917935,
+            "std_pred": "23.183506",
+            "min_true": 0.0,
+            "max_true": 267.0671772808125,
+            "min_pred": "0.0",
+            "max_pred": "147.515"
+          },
+          "cost_metrics": {
+            "total_cost": 232557.9366445045,
+            "avg_cost_per_period": 2236.1340061971587,
+            "holding_cost_total": 10911.596329855214,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 221646.34031464925,
+            "cost_breakdown": {
+              "holding": 0.046919905152646026,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9530800948473539
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_069": {
+          "n_periods": 104,
+          "avg_demand": 33.19230769230769,
+          "demand_volatility": 10.052364763641412,
+          "unit_cost": 15.754511792425392,
+          "prediction_metrics": {
+            "mae": 25.530449546585924,
+            "mse": 947.6617031844029,
+            "rmse": 30.784114461592083,
+            "r2": -1.791502232463261,
+            "mape": 87.92727971385428,
+            "smape": 152.7763834329051,
+            "prediction_std": 25.050400878400506,
+            "mean_true": 32.58993686191056,
+            "mean_pred": "14.697505",
+            "std_true": 18.425007588631942,
+            "std_pred": "25.515638",
+            "min_true": 0.0,
+            "max_true": 70.5,
+            "min_pred": "0.0",
+            "max_pred": "71.04897"
+          },
+          "cost_metrics": {
+            "total_cost": 21886.434807284335,
+            "avg_cost_per_period": 210.44648853158014,
+            "holding_cost_total": 1597.2638624040192,
+            "shortage_cost_total": 1024.0432665076505,
+            "ordering_cost_total": "0",
+            "production_cost_total": 19265.127678372664,
+            "cost_breakdown": {
+              "holding": 0.0729796276309201,
+              "shortage": 0.046788948292612015,
+              "ordering": 0.0,
+              "production": 0.8802314240764678
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.996665382129183,
+            "median_service_level": 1.0,
+            "min_service_level": 0.8235294117647058,
+            "stockout_frequency": 0.028846153846153848,
+            "perfect_service_rate": 0.9711538461538461,
+            "service_level_std": 0.021210394439469198,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_070": {
+          "n_periods": 104,
+          "avg_demand": 126.4326923076923,
+          "demand_volatility": 34.218533677672944,
+          "unit_cost": 78.4606765323485,
+          "prediction_metrics": {
+            "mae": 23.43113883369492,
+            "mse": 1131.3683531940273,
+            "rmse": 33.635819496394426,
+            "r2": 0.6882354870147649,
+            "mape": 65103796.261994556,
+            "smape": 21.467630631371414,
+            "prediction_std": 33.544157017778936,
+            "mean_true": 127.3163961144848,
+            "mean_pred": "124.834885",
+            "std_true": 60.2405146443048,
+            "std_pred": "39.800335",
+            "min_true": 0.0,
+            "max_true": 448.4051959064198,
+            "min_pred": "0.0",
+            "max_pred": "247.30727"
+          },
+          "cost_metrics": {
+            "total_cost": 875804.2012002055,
+            "avg_cost_per_period": 8421.194242309668,
+            "holding_cost_total": 60891.00539883712,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 814913.1958013683,
+            "cost_breakdown": {
+              "holding": 0.06952582017235343,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9304741798276466
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_071": {
+          "n_periods": 104,
+          "avg_demand": 87.8076923076923,
+          "demand_volatility": 23.441758823918807,
+          "unit_cost": 90.85125692404046,
+          "prediction_metrics": {
+            "mae": 18.34012687555353,
+            "mse": 557.6474059904433,
+            "rmse": 23.614559195344793,
+            "r2": 0.638399685072149,
+            "mape": 28.06338827555433,
+            "smape": 26.407072433279833,
+            "prediction_std": 23.61454176233307,
+            "mean_true": 88.2080684806813,
+            "mean_pred": "88.23676",
+            "std_true": 39.27041068987363,
+            "std_pred": "27.570427",
+            "min_true": 9.5,
+            "max_true": 260.5391219908558,
+            "min_pred": "0.0",
+            "max_pred": "161.89871"
+          },
+          "cost_metrics": {
+            "total_cost": 699398.3012057797,
+            "avg_cost_per_period": 6724.983665440189,
+            "holding_cost_total": 32432.092474826095,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 666966.2087309535,
+            "cost_breakdown": {
+              "holding": 0.046371420146306304,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9536285798536936
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_072": {
+          "n_periods": 104,
+          "avg_demand": 103.04807692307692,
+          "demand_volatility": 26.665995876240874,
+          "unit_cost": 75.496663004943,
+          "prediction_metrics": {
+            "mae": 20.651264828348978,
+            "mse": 729.747559332869,
+            "rmse": 27.0138401441348,
+            "r2": 0.5720704409301196,
+            "mape": 128837027.71652113,
+            "smape": 26.449928582665894,
+            "prediction_std": 26.257678948098164,
+            "mean_true": 102.58535390211699,
+            "mean_pred": "108.93216",
+            "std_true": 41.295257872306756,
+            "std_pred": "27.118158",
+            "min_true": 0.0,
+            "max_true": 209.0,
+            "min_pred": "45.9924",
+            "max_pred": "171.70563"
+          },
+          "cost_metrics": {
+            "total_cost": 717614.0050962182,
+            "avg_cost_per_period": 6900.134664386714,
+            "holding_cost_total": 33376.038097501856,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 684237.9669987164,
+            "cost_breakdown": {
+              "holding": 0.04650973623769616,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9534902637623038
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_073": {
+          "n_periods": 104,
+          "avg_demand": 114.1826923076923,
+          "demand_volatility": 28.25293675707982,
+          "unit_cost": 75.99137870130882,
+          "prediction_metrics": {
+            "mae": 17.097378720335566,
+            "mse": 442.1784468662346,
+            "rmse": 21.02803953929692,
+            "r2": 0.7442220307633078,
+            "mape": 18.89899041600689,
+            "smape": 16.86823465165125,
+            "prediction_std": 21.005304445783352,
+            "mean_true": 112.4219785585924,
+            "mean_pred": "113.39954",
+            "std_true": 41.57834681591026,
+            "std_pred": "31.085857",
+            "min_true": 0.0,
+            "max_true": 209.5,
+            "min_pred": "0.0",
+            "max_pred": "171.46115"
+          },
+          "cost_metrics": {
+            "total_cost": 770840.2519430686,
+            "avg_cost_per_period": 7411.925499452583,
+            "holding_cost_total": 53873.60298299561,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 716966.648960073,
+            "cost_breakdown": {
+              "holding": 0.06988945225316869,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9301105477468313
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_074": {
+          "n_periods": 104,
+          "avg_demand": 24.85576923076923,
+          "demand_volatility": 7.334475407254877,
+          "unit_cost": 48.204987334778906,
+          "prediction_metrics": {
+            "mae": 24.185333070592506,
+            "mse": 788.7216569779483,
+            "rmse": 28.084188736332553,
+            "r2": -2.598469799425614,
+            "mape": 98.35383325423996,
+            "smape": 188.59687007140653,
+            "prediction_std": 17.290296102591565,
+            "mean_true": 24.568550157751297,
+            "mean_pred": "2.4378629",
+            "std_true": 14.804813877274624,
+            "std_pred": "12.2491665",
+            "min_true": 0.0,
+            "max_true": 62.5,
+            "min_pred": "0.0",
+            "max_pred": "84.64541"
+          },
+          "cost_metrics": {
+            "total_cost": 26426.999799880316,
+            "avg_cost_per_period": 254.1057673065415,
+            "holding_cost_total": 2807.6995782770246,
+            "shortage_cost_total": 13841.873247519985,
+            "ordering_cost_total": "0",
+            "production_cost_total": 9777.426974083302,
+            "cost_breakdown": {
+              "holding": 0.10624359933168578,
+              "shortage": 0.5237777028167485,
+              "ordering": 0.0,
+              "production": 0.36997869785156556
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.981912551035954,
+            "median_service_level": 1.0,
+            "min_service_level": 0.1690261197955119,
+            "stockout_frequency": 0.04807692307692308,
+            "perfect_service_rate": 0.9519230769230769,
+            "service_level_std": 0.095813217278035,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_075": {
+          "n_periods": 104,
+          "avg_demand": 172.19230769230768,
+          "demand_volatility": 48.293414880669246,
+          "unit_cost": 26.82537624475209,
+          "prediction_metrics": {
+            "mae": 34.08707511167894,
+            "mse": 1762.312197197162,
+            "rmse": 41.979902300948275,
+            "r2": 0.6832559072753459,
+            "mape": 100075194.36832772,
+            "smape": 24.421521163931363,
+            "prediction_std": 41.646311694768606,
+            "mean_true": 172.2458616652819,
+            "mean_pred": "177.52762",
+            "std_true": 74.59112571681692,
+            "std_pred": "49.076786",
+            "min_true": 0.0,
+            "max_true": 324.0,
+            "min_pred": "66.95671",
+            "max_pred": "277.26172"
+          },
+          "cost_metrics": {
+            "total_cost": 415908.9017326241,
+            "avg_cost_per_period": 3999.1240551213855,
+            "holding_cost_total": 19690.111985216186,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 396218.7897474079,
+            "cost_breakdown": {
+              "holding": 0.04734236729050439,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9526576327094955
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_076": {
+          "n_periods": 104,
+          "avg_demand": 166.92307692307693,
+          "demand_volatility": 41.81691308031765,
+          "unit_cost": 47.59074133641551,
+          "prediction_metrics": {
+            "mae": 23.9343761025756,
+            "mse": 973.3210700528251,
+            "rmse": 31.198094013141652,
+            "r2": 0.743262275185314,
+            "mape": 76721518.63680285,
+            "smape": 17.52142270061353,
+            "prediction_std": 29.01837974874636,
+            "mean_true": 167.16429305661615,
+            "mean_pred": "178.62094",
+            "std_true": 61.57199399517353,
+            "std_pred": "44.790405",
+            "min_true": 0.0,
+            "max_true": 324.3864778880776,
+            "min_pred": "79.79036",
+            "max_pred": "278.01956"
+          },
+          "cost_metrics": {
+            "total_cost": 741467.4672938167,
+            "avg_cost_per_period": 7129.494877825161,
+            "holding_cost_total": 34208.99067094085,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 707258.4766228759,
+            "cost_breakdown": {
+              "holding": 0.046136873402950085,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.95386312659705
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_077": {
+          "n_periods": 104,
+          "avg_demand": 91.65384615384616,
+          "demand_volatility": 24.048401529653514,
+          "unit_cost": 82.66935309308252,
+          "prediction_metrics": {
+            "mae": 17.38860323119544,
+            "mse": 417.1765111856512,
+            "rmse": 20.42489929438212,
+            "r2": 0.6571738381407912,
+            "mape": 23.418499239598102,
+            "smape": 20.900602033460704,
+            "prediction_std": 20.32316741625334,
+            "mean_true": 90.69271733818067,
+            "mean_pred": "92.728745",
+            "std_true": 34.883732349199676,
+            "std_pred": "26.38136",
+            "min_true": 0.0,
+            "max_true": 174.0,
+            "min_pred": "0.0",
+            "max_pred": "162.61716"
+          },
+          "cost_metrics": {
+            "total_cost": 669677.6579501402,
+            "avg_cost_per_period": 6439.208249520579,
+            "holding_cost_total": 31881.04064840885,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 637796.6173017314,
+            "cost_breakdown": {
+              "holding": 0.047606546627217035,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.952393453372783
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_078": {
+          "n_periods": 104,
+          "avg_demand": 52.86538461538461,
+          "demand_volatility": 13.743176730536186,
+          "unit_cost": 40.32209673859732,
+          "prediction_metrics": {
+            "mae": 17.346480776818737,
+            "mse": 458.72314477127895,
+            "rmse": 21.41782306331059,
+            "r2": 0.22927256899298398,
+            "mape": 52.225234355104,
+            "smape": 39.448624935864515,
+            "prediction_std": 18.03285506310271,
+            "mean_true": 52.328389758435414,
+            "mean_pred": "63.88431",
+            "std_true": 24.396353540641893,
+            "std_pred": "20.476412",
+            "min_true": 0.0,
+            "max_true": 109.5,
+            "min_pred": "0.0",
+            "max_pred": "114.77563"
+          },
+          "cost_metrics": {
+            "total_cost": 228505.11130644672,
+            "avg_cost_per_period": 2197.164531792757,
+            "holding_cost_total": 14186.128616597445,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 214318.98268984928,
+            "cost_breakdown": {
+              "holding": 0.06208232514139485,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9379176748586051
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_079": {
+          "n_periods": 104,
+          "avg_demand": 11.461538461538462,
+          "demand_volatility": 4.379837025214338,
+          "unit_cost": 49.55268783526559,
+          "prediction_metrics": {
+            "mae": 11.326923076923077,
+            "mse": 226.39953095081637,
+            "rmse": 15.046578712478674,
+            "r2": -1.3078362463007585,
+            "mape": 88.46152071954354,
+            "smape": 176.9230414390871,
+            "prediction_std": 9.904561805566352,
+            "mean_true": 11.326923076923077,
+            "mean_pred": "0.0",
+            "std_true": 9.904561805566352,
+            "std_pred": "0.0",
+            "min_true": 0.0,
+            "max_true": 61.86314668072305,
+            "min_pred": "0.0",
+            "max_pred": "0.0"
+          },
+          "cost_metrics": {
+            "total_cost": 25071.69078469818,
+            "avg_cost_per_period": 241.07394985286712,
+            "holding_cost_total": 1320.307872817454,
+            "shortage_cost_total": 23751.38291188073,
+            "ordering_cost_total": "0",
+            "production_cost_total": "0",
+            "cost_breakdown": {
+              "holding": 0.052661301710982635,
+              "shortage": 0.9473386982890175,
+              "ordering": 0.0,
+              "production": 0.0
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9472713848098343,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.11538461538461539,
+            "perfect_service_rate": 0.8846153846153846,
+            "service_level_std": 0.17370066592240896,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.6358695652173914
+          }
+        },
+        "SKU_080": {
+          "n_periods": 104,
+          "avg_demand": 31.182692307692307,
+          "demand_volatility": 8.908122641263136,
+          "unit_cost": 8.68127297825747,
+          "prediction_metrics": {
+            "mae": 28.055626786672153,
+            "mse": 1099.4291581862767,
+            "rmse": 33.15764102264027,
+            "r2": -1.4842622294267653,
+            "mape": 89.99363354486482,
+            "smape": 172.90520867367317,
+            "prediction_std": 20.58926349351714,
+            "mean_true": 30.942307692307693,
+            "mean_pred": "4.951706",
+            "std_true": 21.03705329497375,
+            "std_pred": "17.848928",
+            "min_true": 0.0,
+            "max_true": 136.0922973815226,
+            "min_pred": "0.0",
+            "max_pred": "114.45583"
+          },
+          "cost_metrics": {
+            "total_cost": 9082.405511691462,
+            "avg_cost_per_period": 87.33082222780253,
+            "holding_cost_total": 662.0620042036397,
+            "shortage_cost_total": 4843.815979199421,
+            "ordering_cost_total": "0",
+            "production_cost_total": 3576.5275282884004,
+            "cost_breakdown": {
+              "holding": 0.07289500599278358,
+              "shortage": 0.5333186205971696,
+              "ordering": 0.0,
+              "production": 0.3937863734100467
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.975398556106349,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.10576923076923077,
+            "perfect_service_rate": 0.8942307692307693,
+            "service_level_std": 0.11901559012572634,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.8824324324324324
+          }
+        },
+        "SKU_081": {
+          "n_periods": 104,
+          "avg_demand": 183.44230769230768,
+          "demand_volatility": 46.733665319922245,
+          "unit_cost": 66.11106455458017,
+          "prediction_metrics": {
+            "mae": 16.76377711374972,
+            "mse": 617.7419971794195,
+            "rmse": 24.85441604985761,
+            "r2": 0.8830459364358147,
+            "mape": 11.34640748111818,
+            "smape": 11.747638323728077,
+            "prediction_std": 24.177536184540823,
+            "mean_true": 183.27800191811443,
+            "mean_pred": "177.51703",
+            "std_true": 72.67681826023514,
+            "std_pred": "56.57206",
+            "min_true": 9.0,
+            "max_true": 501.81219948390174,
+            "min_pred": "0.0",
+            "max_pred": "343.33447"
+          },
+          "cost_metrics": {
+            "total_cost": 1050730.683596259,
+            "avg_cost_per_period": 10103.17964996403,
+            "holding_cost_total": 74308.78291410953,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 976421.9006821495,
+            "cost_breakdown": {
+              "holding": 0.07072105542761757,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9292789445723825
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_082": {
+          "n_periods": 104,
+          "avg_demand": 153.57692307692307,
+          "demand_volatility": 38.43458502914995,
+          "unit_cost": 83.61780084783794,
+          "prediction_metrics": {
+            "mae": 20.957348028059684,
+            "mse": 796.967938870775,
+            "rmse": 28.23062058954381,
+            "r2": 0.7400541830266425,
+            "mape": 22.481467223817823,
+            "smape": 16.234444396913037,
+            "prediction_std": 27.66444580745993,
+            "mean_true": 153.52389308902443,
+            "mean_pred": "147.89838",
+            "std_true": 55.37057183629556,
+            "std_pred": "37.598663",
+            "min_true": 14.0,
+            "max_true": 382.58488125853967,
+            "min_pred": "67.33309",
+            "max_pred": "257.392"
+          },
+          "cost_metrics": {
+            "total_cost": 1080893.7479071426,
+            "avg_cost_per_period": 10393.209114491756,
+            "holding_cost_total": 51964.55316954826,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 1028929.1947375946,
+            "cost_breakdown": {
+              "holding": 0.04807554236497668,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9519244576350235
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_083": {
+          "n_periods": 104,
+          "avg_demand": 19.89423076923077,
+          "demand_volatility": 6.315212438263917,
+          "unit_cost": 95.41523655648389,
+          "prediction_metrics": {
+            "mae": 19.494457873931296,
+            "mse": 530.392531554129,
+            "rmse": 23.030252529100263,
+            "r2": -2.001301998761015,
+            "mape": 92.38624518181844,
+            "smape": 184.12253102368388,
+            "prediction_std": 12.26208154252968,
+            "mean_true": 19.948076923076922,
+            "mean_pred": "0.45361903",
+            "std_true": 13.293638093383501,
+            "std_pred": "3.4481888",
+            "min_true": 0.0,
+            "max_true": 77.18219577084325,
+            "min_pred": "0.0",
+            "max_pred": "32.10745"
+          },
+          "cost_metrics": {
+            "total_cost": 58840.597022091184,
+            "avg_cost_per_period": 565.7749713662614,
+            "holding_cost_total": 4105.447750620309,
+            "shortage_cost_total": 51134.07282059188,
+            "ordering_cost_total": "0",
+            "production_cost_total": 3601.0764508789916,
+            "cost_breakdown": {
+              "holding": 0.0697723673517275,
+              "shortage": 0.8690270902824804,
+              "ordering": 0.0,
+              "production": 0.061200542365792095
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9574906937133938,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.11538461538461539,
+            "perfect_service_rate": 0.8846153846153846,
+            "service_level_std": 0.15625410883279736,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.62875
+          }
+        },
+        "SKU_084": {
+          "n_periods": 104,
+          "avg_demand": 203.89423076923077,
+          "demand_volatility": 45.4530416531066,
+          "unit_cost": 15.938808249311942,
+          "prediction_metrics": {
+            "mae": 20.50516046447387,
+            "mse": 867.3757252946763,
+            "rmse": 29.451243187591867,
+            "r2": 0.795731441460185,
+            "mape": 12.219629623119209,
+            "smape": 12.887243459468904,
+            "prediction_std": 29.205151214978013,
+            "mean_true": 202.25920241499313,
+            "mean_pred": "206.05852",
+            "std_true": 65.1632699878352,
+            "std_pred": "55.06111",
+            "min_true": 36.600000000000136,
+            "max_true": 394.5,
+            "min_pred": "0.0",
+            "max_pred": "317.1162"
+          },
+          "cost_metrics": {
+            "total_cost": 293546.2436289775,
+            "avg_cost_per_period": 2822.5600348940143,
+            "holding_cost_total": 20290.20802218846,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 273256.03560678905,
+            "cost_breakdown": {
+              "holding": 0.06912099358298689,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9308790064170132
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_085": {
+          "n_periods": 104,
+          "avg_demand": 37.79807692307692,
+          "demand_volatility": 10.17648136464167,
+          "unit_cost": 24.289889506568542,
+          "prediction_metrics": {
+            "mae": 23.054635493113445,
+            "mse": 718.5208865274219,
+            "rmse": 26.805239908037045,
+            "r2": -0.6160235837374481,
+            "mape": 72.66011747157896,
+            "smape": 116.9405231997585,
+            "prediction_std": 25.420150539993706,
+            "mean_true": 37.482692307692304,
+            "mean_pred": "28.977587",
+            "std_true": 21.086080069232143,
+            "std_pred": "31.839634",
+            "min_true": 0.0,
+            "max_true": 154.6234695562393,
+            "min_pred": "0.0",
+            "max_pred": "88.19703"
+          },
+          "cost_metrics": {
+            "total_cost": 70548.97245923987,
+            "avg_cost_per_period": 678.355504415768,
+            "holding_cost_total": 3349.7178175686604,
+            "shortage_cost_total": 8637.90608422422,
+            "ordering_cost_total": "0",
+            "production_cost_total": 58561.348557446996,
+            "cost_breakdown": {
+              "holding": 0.04748074565514022,
+              "shortage": 0.1224384393297128,
+              "ordering": 0.0,
+              "production": 0.8300808150151471
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9817330274214959,
+            "median_service_level": 1.0,
+            "min_service_level": 0.0,
+            "stockout_frequency": 0.028846153846153848,
+            "perfect_service_rate": 0.9711538461538461,
+            "service_level_std": 0.1172327494641676,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_086": {
+          "n_periods": 104,
+          "avg_demand": 170.67307692307693,
+          "demand_volatility": 44.96977243837325,
+          "unit_cost": 34.57486635165233,
+          "prediction_metrics": {
+            "mae": 25.156767494826155,
+            "mse": 1043.4706132954745,
+            "rmse": 32.302795750452844,
+            "r2": 0.762806387858654,
+            "mape": 56442395.88934949,
+            "smape": 21.691050386874842,
+            "prediction_std": 32.03215718333649,
+            "mean_true": 168.00216316630195,
+            "mean_pred": "172.17488",
+            "std_true": 66.32673464981136,
+            "std_pred": "51.89187",
+            "min_true": 0.0,
+            "max_true": 297.5,
+            "min_pred": "0.0",
+            "max_pred": "261.52673"
+          },
+          "cost_metrics": {
+            "total_cost": 520554.34022641357,
+            "avg_cost_per_period": 5005.330194484746,
+            "holding_cost_total": 25271.123887372698,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 495283.2163390408,
+            "cost_breakdown": {
+              "holding": 0.048546562643932804,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.951453437356067
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_087": {
+          "n_periods": 104,
+          "avg_demand": 193.68269230769232,
+          "demand_volatility": 54.22951305225771,
+          "unit_cost": 62.794815056911425,
+          "prediction_metrics": {
+            "mae": 22.51969579759396,
+            "mse": 881.5273510659446,
+            "rmse": 29.690526284758654,
+            "r2": 0.8559542827392759,
+            "mape": 16697707.37241131,
+            "smape": 16.12078858709814,
+            "prediction_std": 25.911783978965335,
+            "mean_true": 191.95577615381737,
+            "mean_pred": "177.46071",
+            "std_true": 78.2289895348937,
+            "std_pred": "60.33553",
+            "min_true": 0.0,
+            "max_true": 363.0,
+            "min_pred": "0.0",
+            "max_pred": "279.48224"
+          },
+          "cost_metrics": {
+            "total_cost": 1001647.4880529002,
+            "avg_cost_per_period": 9631.225846662503,
+            "holding_cost_total": 74498.90566319146,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 927148.5823897086,
+            "cost_breakdown": {
+              "holding": 0.07437637147976049,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9256236285202394
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_088": {
+          "n_periods": 104,
+          "avg_demand": 25.26923076923077,
+          "demand_volatility": 8.03177037301673,
+          "unit_cost": 79.16788943076845,
+          "prediction_metrics": {
+            "mae": 24.583724054182955,
+            "mse": 812.1843254745107,
+            "rmse": 28.49884779205136,
+            "r2": -2.304388343561707,
+            "mape": 94.87911648287448,
+            "smape": 188.9508793030457,
+            "prediction_std": 14.416131141963751,
+            "mean_true": 25.397346767271944,
+            "mean_pred": "0.8136227",
+            "std_true": 15.677678749580457,
+            "std_pred": "5.177789",
+            "min_true": 0.0,
+            "max_true": 76.32406379628216,
+            "min_pred": "0.0",
+            "max_pred": "38.335793"
+          },
+          "cost_metrics": {
+            "total_cost": 33325.993840400915,
+            "avg_cost_per_period": 320.4422484653934,
+            "holding_cost_total": 4157.847890204002,
+            "shortage_cost_total": 23809.00157357943,
+            "ordering_cost_total": "0",
+            "production_cost_total": 5359.144376617487,
+            "cost_breakdown": {
+              "holding": 0.12476290760047692,
+              "shortage": 0.7144273532426784,
+              "ordering": 0.0,
+              "production": 0.1608097391568448
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.977347800043883,
+            "median_service_level": 1.0,
+            "min_service_level": 0.08379681018589195,
+            "stockout_frequency": 0.0673076923076923,
+            "perfect_service_rate": 0.9326923076923077,
+            "service_level_std": 0.11164535187543283,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 0.8551446051167965
+          }
+        },
+        "SKU_089": {
+          "n_periods": 104,
+          "avg_demand": 175.4903846153846,
+          "demand_volatility": 39.29549374898919,
+          "unit_cost": 12.077697254789694,
+          "prediction_metrics": {
+            "mae": 29.402245101225358,
+            "mse": 1391.2576353388006,
+            "rmse": 37.2995661548335,
+            "r2": 0.6307758004596815,
+            "mape": 110298544.40915184,
+            "smape": 19.336414521846855,
+            "prediction_std": 34.79143013255554,
+            "mean_true": 174.10469814230203,
+            "mean_pred": "187.5514",
+            "std_true": 61.384497014624685,
+            "std_pred": "39.984367",
+            "min_true": 0.0,
+            "max_true": 347.0,
+            "min_pred": "75.83741",
+            "max_pred": "269.38733"
+          },
+          "cost_metrics": {
+            "total_cost": 197622.6328387544,
+            "avg_cost_per_period": 1900.2176234495614,
+            "holding_cost_total": 9158.896896645503,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 188463.73594210888,
+            "cost_breakdown": {
+              "holding": 0.04634538445866417,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9536546155413358
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_090": {
+          "n_periods": 104,
+          "avg_demand": 77.66346153846153,
+          "demand_volatility": 18.47833187997411,
+          "unit_cost": 76.51228483273276,
+          "prediction_metrics": {
+            "mae": 15.588613054933413,
+            "mse": 400.7887853647522,
+            "rmse": 20.01970992209308,
+            "r2": 0.5388797844497171,
+            "mape": 29.42062162726007,
+            "smape": 25.13209707558277,
+            "prediction_std": 20.013181277393148,
+            "mean_true": 77.39765217679964,
+            "mean_pred": "77.90888",
+            "std_true": 29.481576232076737,
+            "std_pred": "21.31334",
+            "min_true": 0.0,
+            "max_true": 149.0,
+            "min_pred": "0.0",
+            "max_pred": "131.85854"
+          },
+          "cost_metrics": {
+            "total_cost": 520748.76906685065,
+            "avg_cost_per_period": 5007.199702565872,
+            "holding_cost_total": 24794.657811995596,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 495954.11125485506,
+            "cost_breakdown": {
+              "holding": 0.047613473684106976,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.952386526315893
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_091": {
+          "n_periods": 104,
+          "avg_demand": 59.50961538461539,
+          "demand_volatility": 15.674476930191352,
+          "unit_cost": 86.35190239207726,
+          "prediction_metrics": {
+            "mae": 20.072404112436057,
+            "mse": 614.881542622172,
+            "rmse": 24.796805089006366,
+            "r2": 0.4416709382736379,
+            "mape": 55.09128305040437,
+            "smape": 38.915478577275906,
+            "prediction_std": 22.288677295278365,
+            "mean_true": 59.147310828416,
+            "mean_pred": "70.01453",
+            "std_true": 33.18567161304883,
+            "std_pred": "24.257444",
+            "min_true": 0.0,
+            "max_true": 257.82032615526384,
+            "min_pred": "0.0",
+            "max_pred": "172.14186"
+          },
+          "cost_metrics": {
+            "total_cost": 536388.8065728088,
+            "avg_cost_per_period": 5157.5846785847,
+            "holding_cost_total": 33370.95160376518,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 503017.85496904363,
+            "cost_breakdown": {
+              "holding": 0.062214108860669234,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9377858911393309
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_092": {
+          "n_periods": 104,
+          "avg_demand": 111.35576923076923,
+          "demand_volatility": 27.68754873119585,
+          "unit_cost": 84.364782844948,
+          "prediction_metrics": {
+            "mae": 25.542655148545524,
+            "mse": 1092.1778751176134,
+            "rmse": 33.04811454709048,
+            "r2": 0.6067180393828087,
+            "mape": 74014423.48288868,
+            "smape": 27.657430634339956,
+            "prediction_std": 32.56915083258801,
+            "mean_true": 111.41308092304644,
+            "mean_pred": "105.80699",
+            "std_true": 52.69806564426751,
+            "std_pred": "32.236584",
+            "min_true": 0.0,
+            "max_true": 372.16041599683,
+            "min_pred": "0.0",
+            "max_pred": "235.12819"
+          },
+          "cost_metrics": {
+            "total_cost": 799579.3301957182,
+            "avg_cost_per_period": 7688.262790343444,
+            "holding_cost_total": 56904.224570432365,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 742675.1056252858,
+            "cost_breakdown": {
+              "holding": 0.07116770334283598,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9288322966571639
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_093": {
+          "n_periods": 104,
+          "avg_demand": 73.5576923076923,
+          "demand_volatility": 20.090004722958227,
+          "unit_cost": 48.82638710167182,
+          "prediction_metrics": {
+            "mae": 25.497255315180308,
+            "mse": 1108.7410263455565,
+            "rmse": 33.29776308320961,
+            "r2": 0.4057877540110415,
+            "mape": 71639400.53153455,
+            "smape": 40.47248863361611,
+            "prediction_std": 29.76740931133089,
+            "mean_true": 73.96453290805938,
+            "mean_pred": "88.88574",
+            "std_true": 43.19607236036796,
+            "std_pred": "24.900507",
+            "min_true": 0.0,
+            "max_true": 322.2114224381759,
+            "min_pred": "0.0",
+            "max_pred": "180.70908"
+          },
+          "cost_metrics": {
+            "total_cost": 384374.26185555325,
+            "avg_cost_per_period": 3695.9063639957044,
+            "holding_cost_total": 23288.802431154025,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 361085.45942439925,
+            "cost_breakdown": {
+              "holding": 0.06058887064583396,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.939411129354166
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_094": {
+          "n_periods": 104,
+          "avg_demand": 151.3846153846154,
+          "demand_volatility": 38.97255885286409,
+          "unit_cost": 61.604688779081464,
+          "prediction_metrics": {
+            "mae": 26.791118219346483,
+            "mse": 1135.641292442228,
+            "rmse": 33.69927732818952,
+            "r2": 0.678867741689602,
+            "mape": 26.96198264769719,
+            "smape": 20.830203743065994,
+            "prediction_std": 32.52491917070364,
+            "mean_true": 150.56638136009826,
+            "mean_pred": "159.38516",
+            "std_true": 59.46735481346704,
+            "std_pred": "41.6057",
+            "min_true": 27.0,
+            "max_true": 309.5,
+            "min_pred": "75.092674",
+            "max_pred": "265.07678"
+          },
+          "cost_metrics": {
+            "total_cost": 856720.3052595453,
+            "avg_cost_per_period": 8237.695242880243,
+            "holding_cost_total": 39790.03690716682,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 816930.2683523784,
+            "cost_breakdown": {
+              "holding": 0.046444605856648086,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9535553941433518
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_095": {
+          "n_periods": 104,
+          "avg_demand": 111.08653846153847,
+          "demand_volatility": 26.887074375691068,
+          "unit_cost": 64.78309313322993,
+          "prediction_metrics": {
+            "mae": 21.359710904684235,
+            "mse": 714.8837027193739,
+            "rmse": 26.737309189957276,
+            "r2": 0.6176889382501156,
+            "mape": 55373609.07448209,
+            "smape": 24.734228522577016,
+            "prediction_std": 25.623062699354353,
+            "mean_true": 110.11030703366148,
+            "mean_pred": "102.472084",
+            "std_true": 43.242347873473065,
+            "std_pred": "29.427",
+            "min_true": 0.0,
+            "max_true": 205.5,
+            "min_pred": "0.0",
+            "max_pred": "171.12248"
+          },
+          "cost_metrics": {
+            "total_cost": 596353.051501591,
+            "avg_cost_per_period": 5734.163956746067,
+            "holding_cost_total": 44033.2672725341,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 552319.7842290569,
+            "cost_breakdown": {
+              "holding": 0.07383758188485874,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9261624181151413
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_096": {
+          "n_periods": 104,
+          "avg_demand": 67.6826923076923,
+          "demand_volatility": 18.17031849568145,
+          "unit_cost": 85.99836155616414,
+          "prediction_metrics": {
+            "mae": 19.371170197742803,
+            "mse": 584.1714261720888,
+            "rmse": 24.169638519681854,
+            "r2": 0.3830908440931452,
+            "mape": 49847494.58779274,
+            "smape": 37.56924590343588,
+            "prediction_std": 21.263201279968673,
+            "mean_true": 66.80466512140778,
+            "mean_pred": "78.29587",
+            "std_true": 30.77227091177065,
+            "std_pred": "22.57259",
+            "min_true": 0.0,
+            "max_true": 146.08517262640885,
+            "min_pred": "0.0",
+            "max_pred": "139.13914"
+          },
+          "cost_metrics": {
+            "total_cost": 598249.6955058081,
+            "avg_cost_per_period": 5752.400918325078,
+            "holding_cost_total": 38037.788321003405,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 560211.9071848048,
+            "cost_breakdown": {
+              "holding": 0.06358179303182632,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9364182069681738
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_097": {
+          "n_periods": 104,
+          "avg_demand": 118.8173076923077,
+          "demand_volatility": 30.44388899511895,
+          "unit_cost": 34.19914413004581,
+          "prediction_metrics": {
+            "mae": 23.649081017634618,
+            "mse": 955.9801983517433,
+            "rmse": 30.91892945028568,
+            "r2": 0.640138730591407,
+            "mape": 76110146.8911655,
+            "smape": 23.821911726184403,
+            "prediction_std": 30.184173974778467,
+            "mean_true": 120.20830323900913,
+            "mean_pred": "113.507866",
+            "std_true": 51.541481124314586,
+            "std_pred": "32.83668",
+            "min_true": 0.0,
+            "max_true": 318.16353685694963,
+            "min_pred": "0.0",
+            "max_pred": "199.85295"
+          },
+          "cost_metrics": {
+            "total_cost": 347828.01752060687,
+            "avg_cost_per_period": 3344.500168467374,
+            "holding_cost_total": 24856.27388555083,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 322971.7436350561,
+            "cost_breakdown": {
+              "holding": 0.07146139078367439,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9285386092163257
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_098": {
+          "n_periods": 104,
+          "avg_demand": 190.93269230769232,
+          "demand_volatility": 46.54223771704827,
+          "unit_cost": 98.07633956104212,
+          "prediction_metrics": {
+            "mae": 22.539312313619014,
+            "mse": 718.8653817336906,
+            "rmse": 26.811665030984006,
+            "r2": 0.8626972722453397,
+            "mape": 5304844.643155432,
+            "smape": 16.00959796336195,
+            "prediction_std": 23.40400731375213,
+            "mean_true": 187.23904487306524,
+            "mean_pred": "200.32024",
+            "std_true": 72.35760812812576,
+            "std_pred": "59.74383",
+            "min_true": 0.0,
+            "max_true": 369.5,
+            "min_pred": "5.517021",
+            "max_pred": "309.0418"
+          },
+          "cost_metrics": {
+            "total_cost": 1753648.9046292477,
+            "avg_cost_per_period": 16862.00869835815,
+            "holding_cost_total": 119045.42237494439,
+            "shortage_cost_total": 0.0,
+            "ordering_cost_total": "0",
+            "production_cost_total": 1634603.482254303,
+            "cost_breakdown": {
+              "holding": 0.06788441064838614,
+              "shortage": 0.0,
+              "ordering": 0.0,
+              "production": 0.9321155893516136
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 1.0,
+            "median_service_level": 1.0,
+            "min_service_level": 1.0,
+            "stockout_frequency": 0.0,
+            "perfect_service_rate": 1.0,
+            "service_level_std": 0.0,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        },
+        "SKU_099": {
+          "n_periods": 104,
+          "avg_demand": 32.54807692307692,
+          "demand_volatility": 8.41275015663183,
+          "unit_cost": 92.21744502405299,
+          "prediction_metrics": {
+            "mae": 27.619045824793112,
+            "mse": 1019.4213409347576,
+            "rmse": 31.928378301046823,
+            "r2": -2.4016825478923387,
+            "mape": 85.86709368166865,
+            "smape": 154.03162231277793,
+            "prediction_std": 25.782713393749486,
+            "mean_true": 32.54772066480324,
+            "mean_pred": "13.714956",
+            "std_true": 17.311311436816965,
+            "std_pred": "26.109488",
+            "min_true": 0.0,
+            "max_true": 79.5,
+            "min_pred": "0.0",
+            "max_pred": "90.30111"
+          },
+          "cost_metrics": {
+            "total_cost": 128696.4897598,
+            "avg_cost_per_period": 1237.4662476903845,
+            "holding_cost_total": 8944.361087126374,
+            "shortage_cost_total": 14524.247591288346,
+            "ordering_cost_total": "0",
+            "production_cost_total": 105227.88108138528,
+            "cost_breakdown": {
+              "holding": 0.06949965071945777,
+              "shortage": 0.11285659475558735,
+              "ordering": 0.0,
+              "production": 0.8176437545249549
+            }
+          },
+          "service_metrics": {
+            "avg_service_level": 0.9924195741049455,
+            "median_service_level": 1.0,
+            "min_service_level": 0.6052631578947368,
+            "stockout_frequency": 0.028846153846153848,
+            "perfect_service_rate": 0.9711538461538461,
+            "service_level_std": 0.050016897571764786,
+            "service_level_95th_percentile": 1.0,
+            "service_level_5th_percentile": 1.0
+          }
+        }
+      },
+      "summary": {
+        "n_skus": 100,
+        "avg_mae_across_skus": 21.65470036965733,
+        "avg_r2_across_skus": 0.09829382256299128,
+        "avg_service_level_across_skus": 0.9954236555245453,
+        "total_cost_all_skus": 48496255.24783821,
+        "skus_with_good_predictions": 23,
+        "skus_with_high_service": 98
+      }
+    },
+    "business_impact": {
+      "overall_performance_score": 0.9516775129055739,
+      "accuracy_score": 0.8472348349156475,
+      "cost_efficiency_score": 0.9937676560771991,
+      "service_level_score": 1.0,
+      "service_level_achievement": 1.0478143742363635,
+      "cost_per_unit_demand": 48496255.247838214
+    },
+    "evaluation_summary": {
+      "model_accuracy": {
+        "mae": 21.654700369657334,
+        "rmse": 27.789036404093356,
+        "r2": 0.8472348349156475,
+        "mape": 35026242.72744881
+      },
+      "cost_performance": {
+        "total_cost": 48496255.247838214,
+        "avg_cost_per_period": 4663.10146613829,
+        "cost_breakdown": {
+          "holding": 0.05971125999432737,
+          "shortage": 0.006232343922800937,
+          "ordering": 0.0,
+          "production": 0.9340563960828716
+        }
+      },
+      "service_performance": {
+        "avg_service_level": 0.9954236555245453,
+        "stockout_frequency": 0.0125,
+        "perfect_service_rate": 0.9875
+      },
+      "sku_performance": {
+        "total_skus": 100,
+        "skus_with_good_predictions": 23,
+        "skus_with_high_service": 98,
+        "avg_performance_across_skus": {
+          "mae": 21.65470036965733,
+          "r2": 0.09829382256299128,
+          "service_level": 0.9954236555245453
+        }
+      }
+    }
+  },
+  "visualization_files": {
+    "prediction_accuracy": "evaluation_results\\visualizations\\prediction_accuracy.png",
+    "cost_breakdown": "evaluation_results\\visualizations\\cost_breakdown.png",
+    "service_level_analysis": "evaluation_results\\visualizations\\service_level_analysis.png",
+    "sku_performance_comparison": "evaluation_results\\visualizations\\sku_performance_comparison.png",
+    "time_series_analysis": "evaluation_results\\visualizations\\time_series_analysis.png"
+  },
+  "predictions_sample": {
+    "true_values": [
+      117468.37173538245,
+      29767.86654709571,
+      0.0,
+      0.0,
+      19158.502929492744,
+      22898.358882381315,
+      22898.358882381315,
+      23152.785092185553,
+      19845.244364730475,
+      13230.162909820316,
+      25442.620980423686,
+      8904.91734314829,
+      6360.6552451059215,
+      25442.620980423686,
+      22898.358882381315,
+      17300.982266688105,
+      23152.785092185553,
+      17300.982266688105,
+      2035.4096784338947,
+      24933.76856081521,
+      13484.589119624552,
+      16028.851217666921,
+      27986.883078466053,
+      0.0,
+      13993.441539233027,
+      12721.310490211843,
+      8650.491133344052,
+      16537.703637275394,
+      9159.343552952527,
+      18064.260896100815,
+      13230.162909820316,
+      14756.720168645737,
+      24170.4899314025,
+      4834.0979862805,
+      26969.178239249104,
+      16028.851217666921,
+      11194.753231386421,
+      15519.998798058448,
+      19336.391945122,
+      2544.2620980423685,
+      32566.554854942315,
+      32312.12864513808,
+      11703.605650994894,
+      40962.619778482134,
+      17809.83468629658,
+      14502.2939588415,
+      33838.6859039635,
+      21117.37541375166,
+      15519.998798058448,
+      20354.096784338948
+    ],
+    "predictions": [
+      144.0742645263672,
+      54.51686477661133,
+      0.0,
+      0.0,
+      50.1684684753418,
+      50.618980407714844,
+      55.3399658203125,
+      52.67027282714844,
+      49.61812210083008,
+      8.884174346923828,
+      57.489620208740234,
+      0.0,
+      0.0,
+      0.0,
+      48.428253173828125,
+      54.01927185058594,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      46.11682891845703,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      49.25638961791992,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      48.31781005859375,
+      0.0,
+      0.0,
+      0.0,
+      22.74259376525879,
+      70.85370635986328,
+      69.69396209716797,
+      0.0,
+      0.0,
+      37.725955963134766,
+      0.0,
+      62.00819396972656,
+      24.95863914489746,
+      0.0
+    ]
+  }
+}
