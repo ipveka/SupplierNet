@@ -199,6 +199,122 @@ python evaluate.py --model-path models/best_model.pth --output-dir my_evaluation
 - **Sequence modeling**: Captures temporal dependencies in supply chain data
 - **Hidden units**: 64 LSTM units (configurable)
 
+## 🧪 Testing
+
+SupplierNet includes a comprehensive test suite to ensure code quality and reliability.
+
+### Test Coverage
+
+The test suite covers all major components:
+
+- **`test_simulation.py`**: Data simulation and SKU generation
+- **`test_data_processing.py`**: Feature engineering and data preprocessing
+- **`test_neural_net.py`**: Neural network models and training components
+- **`test_evaluation.py`**: Evaluation metrics and performance analysis
+- **`test_config.py`**: Configuration validation and parameter checking
+
+### Running Tests
+
+#### Option 1: Using the Test Runner (Recommended)
+```bash
+# Run all tests with summary report
+python run_tests.py
+```
+
+#### Option 2: Using unittest directly
+```bash
+# Run all tests
+python -m unittest discover tests/ -v
+
+# Run specific test file
+python -m unittest tests.test_simulation -v
+
+# Run specific test class
+python -m unittest tests.test_neural_net.TestFeedforwardNet -v
+
+# Run specific test method
+python -m unittest tests.test_evaluation.TestSupplyChainEvaluator.test_prediction_metrics -v
+```
+
+#### Option 3: Using pytest (if installed)
+```bash
+# Install pytest (optional)
+pip install pytest pytest-cov
+
+# Run tests with coverage
+pytest tests/ --cov=. --cov-report=html
+
+# Run tests with verbose output
+pytest tests/ -v
+```
+
+### Test Categories
+
+#### Unit Tests
+- **Model Architecture**: Forward pass, gradient flow, parameter initialization
+- **Data Processing**: Feature engineering, normalization, data splitting
+- **Simulation**: SKU generation, demand modeling, supply chain dynamics
+- **Evaluation**: Metric calculations, business impact analysis
+- **Configuration**: Parameter validation, seed setting
+
+#### Integration Tests
+- **Training Pipeline**: Complete model training workflow
+- **Evaluation Pipeline**: End-to-end model evaluation
+- **Data Pipeline**: Simulation → Processing → Model → Evaluation
+
+### Expected Test Results
+
+A successful test run should show:
+```
+TEST SUMMARY
+============================================================
+Tests run: 50+
+Failures: 0
+Errors: 0
+Skipped: 0
+
+Success rate: 100.0%
+
+✅ All tests passed!
+```
+
+### Test Data
+
+Tests use:
+- **Synthetic data**: Generated on-the-fly for reproducible testing
+- **Fixed random seeds**: Ensures consistent test results
+- **Small datasets**: Fast execution while maintaining coverage
+- **Edge cases**: Perfect predictions, worst-case scenarios, boundary conditions
+
+### Adding New Tests
+
+When adding new functionality:
+
+1. **Create test file**: `tests/test_new_module.py`
+2. **Follow naming convention**: `TestClassName` for test classes, `test_method_name` for methods
+3. **Include docstrings**: Describe what each test validates
+4. **Test edge cases**: Normal operation, boundary conditions, error cases
+5. **Use assertions**: Validate expected behavior with descriptive messages
+
+Example test structure:
+```python
+class TestNewFeature(unittest.TestCase):
+    def setUp(self):
+        """Set up test fixtures."""
+        self.config = get_config()
+        # Initialize test data
+    
+    def test_normal_operation(self):
+        """Test normal operation of the feature."""
+        # Test implementation
+        self.assertEqual(expected, actual)
+    
+    def test_edge_cases(self):
+        """Test edge cases and boundary conditions."""
+        # Test edge cases
+        self.assertRaises(ValueError, function, invalid_input)
+```
+
 ## 📊 Configuration
 
 SupplierNet is highly configurable through `config.py`. Key parameters include:
@@ -390,15 +506,4 @@ If you have any questions or run into issues:
 2. Create a new issue with detailed information about your problem
 3. Include your configuration, error messages, and system information
 
-## 🗺️ Roadmap
-
-- [ ] **Multi-objective optimization**: Extend to handle multiple conflicting objectives
-- [ ] **Real-time inference**: Add streaming data processing capabilities
-- [ ] **Ensemble methods**: Implement model ensembling for improved robustness
-- [ ] **Explainable AI**: Enhanced SHAP integration for model interpretability
-- [ ] **Cloud deployment**: Add containerization and cloud deployment guides
-- [ ] **Web interface**: Develop a web-based dashboard for non-technical users
-
 ---
-
-**SupplierNet** - Optimizing supply chains with artificial intelligence 🚀
