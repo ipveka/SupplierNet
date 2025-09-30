@@ -77,7 +77,7 @@ EVALUATION_CONFIG = {
 
 # Feature Engineering
 FEATURE_CONFIG = {
-    'lookback_weeks': 8,  # Historical data to include
+    'lookback_weeks': 12,  # Historical data to include
     'forecast_horizon': 4,  # Weeks to forecast demand
     'include_seasonality': True,
     'include_trend': True,
